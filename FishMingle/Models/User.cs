@@ -122,7 +122,6 @@ namespace FishMingle.Models
         MySqlParameter userName = new MySqlParameter("@userName", _userName);
         MySqlParameter password = new MySqlParameter("@userPassword", _password);
 
-
         cmd.Parameters.Add(name);
         cmd.Parameters.Add(species);
         cmd.Parameters.Add(userName);
@@ -139,6 +138,46 @@ namespace FishMingle.Models
         return true;
       }
       return false;
+    }
+    public static User Find(int id)
+    {
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+
+        MySqlParameter thisId = new MySqlParameter();
+        thisId.ParameterName = "@thisId";
+        thisId.Value = id;
+        cmd.Parameters.Add(thisId);
+
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+        int userId = 0;
+        string name = "";
+        string species = "";
+        string userName = "";
+        string password = "";
+
+        while (rdr.Read())
+        {
+          int userId = rdr.GetInt32(0);
+          string name = rdr.GetString(1);
+          string species = rdr.GetString(2);
+          string userName = rdr.GetString(3);
+          string password = rdr.GetString(4);
+        }
+
+        User foundUser= new User(name, species, userName, password, userId);
+
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+
+        return foundUser;
     }
     public static void DeleteAll()
      {

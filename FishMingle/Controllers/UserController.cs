@@ -6,10 +6,10 @@ using FishMingle.Models;
 namespace FishMingle.Controllers
 {
 
-  public class LoginController : Controller
+  public class UserController : Controller
   {
 
-    [HttpGet("/login")]
+    [HttpGet("/users")]
     public ActionResult Index()
     {
       return View();

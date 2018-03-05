@@ -57,5 +57,17 @@ namespace FishMingle.Tests
       //Assert
       Assert.AreEqual(testId, result);
     }
+    [TestMethod]
+    public void Find_FindUserInDatabase_true()
+    {
+        //Arrange
+        User testUser = new User("Jim", "Human", "Jim45", "Password1");
+        testUser.SaveUser();
+        //Act
+        User foundUser = User.Find(testUser.GetId());
+        //Assert
+        Assert.AreEqual(testUser, foundUser);
+
+    }
   }
 }
