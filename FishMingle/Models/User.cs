@@ -4,7 +4,7 @@ using System;
 
 namespace FishMingle.Models
 {
-  public class Fish
+  public class User
   {
     private string _fishName;
     private int _fishId;
