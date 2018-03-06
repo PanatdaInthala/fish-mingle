@@ -5,11 +5,11 @@ using FishMingle.Models;
 
 namespace FishMingle.Controllers
 {
-  public class UserController : Controller
+  public class FishController : Controller
   {
-    //USER IS ABLE TO BROWSE OTHER PROFILES ON THIS PAGE
+
     [HttpGet("/fish")]
-    public ActionResult Fish()
+    public ActionResult FishIndex()
     {
       List<Fish> fishList = Fish.GetAll();
       return View(fishList);
@@ -33,9 +33,9 @@ namespace FishMingle.Controllers
     public ActionResult CreateFish()
     {
       string userNameActual = Request.Form["userName"];
-      //THE USERS SPECIES ID WILL BE INPUT HERE
-      string userNameProfile = Request.Form["userNameProfile"]);
-      string userPassword = Request.Form["userPassword"]);
+      int speciesId = Int32.Parse(Request.Form["speciesId"]);
+      string userNameProfile = Request.Form["userNameProfile"];
+      string userPassword = Request.Form["userPassword"];
       Fish newFish = new Fish( userNameActual, speciesId, userNameProfile, userPassword );
       newFish.Save();
 
@@ -49,7 +49,7 @@ namespace FishMingle.Controllers
     }
 
     [HttpPost("fish/{id}/update/password")]
-    public ActionResult UpdatePassword()
+    public ActionResult UpdatePassword(int id)
     {
       Fish thisFish = Fish.Find(id);
       thisFish.UpdatePassword(Request.Form["updatePassword"]);
@@ -57,13 +57,13 @@ namespace FishMingle.Controllers
     }
 
     [HttpGet("fish/{id}/update/username")]
-    public ActionResult UpdateUsername()
+    public ActionResult UpdateUsernameForm()
     {
       return View ("UpdateUserNameForm");
     }
 
     [HttpPost("fish/{id}/update/userName")]
-    public ActionResult UpdateUsername()
+    public ActionResult UpdateUsername(int id)
     {
       Fish thisFish = Fish.Find(id);
       thisFish.UpdateFish(Request.Form["UpdateUsername"]);
@@ -73,10 +73,11 @@ namespace FishMingle.Controllers
     //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
 
     [HttpGet("fish/{id}/matchmaking")]
-    public ActionResult ViewMatchMaking()
+    public ActionResult ViewMatchMaking(string name, int speciesId, string userName, string password)
     {
+      var Fish = new Fish(name, speciesId, userName, password);
       List<Fish> userList = Fish.GetMatches();
-      return View ()
+      return View ();
     }
 
   }
