@@ -18,6 +18,7 @@ namespace FishMingle.Models
         // {
         //   _id = id;
         // }
+      }
         public static void DeleteAll()
         {
             MySqlConnection conn = DB.Connection();
@@ -35,5 +36,4 @@ namespace FishMingle.Models
             };
         }
     }
-}
 }

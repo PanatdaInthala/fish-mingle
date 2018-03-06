@@ -175,11 +175,11 @@ namespace FishMingle.Models
 
         while (rdr.Read())
         {
-          int userId = rdr.GetInt32(0);
-          string name = rdr.GetString(1);
-          string species = rdr.GetString(2);
-          string userName = rdr.GetString(3);
-          string password = rdr.GetString(4);
+          userId = rdr.GetInt32(0);
+          name = rdr.GetString(1);
+          species = rdr.GetString(2);
+          userName = rdr.GetString(3);
+          password = rdr.GetString(4);
         }
 
         User foundUser= new User(name, species, userName, password, userId);
@@ -223,6 +223,60 @@ namespace FishMingle.Models
     public override int GetHashCode()
     {
       return this.GetId().GetHashCode();
+    }
+        public static int Login(string userName, string password)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+
+      cmd.CommandText = @"SELECT * FROM users WHERE user_name = @userName;";
+
+      MySqlParameter userNameParameter = new MySqlParameter();
+      userNameParameter.ParameterName = "@userName";
+      userNameParameter.Value = userName;
+      cmd.Parameters.Add(userNameParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      int id = 0;
+      string databasePassword = "";
+      int sessionId = 0;
+
+      while (rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+        databasePassword = rdr.GetString(4);
+      }
+
+      rdr.Dispose();
+      if (password == databasePassword)
+      {
+        cmd.CommandText = @"INSERT INTO sessions (user_id, session_id) VALUES (@userId, @sessionId);";
+
+        MySqlParameter thisIdParameter = new MySqlParameter();
+        thisIdParameter.ParameterName = "@userId";
+        thisIdParameter.Value = id;
+        cmd.Parameters.Add(thisIdParameter);
+
+        MySqlParameter sessionIdParameter = new MySqlParameter();
+        sessionIdParameter.ParameterName = "@sessionId";
+        Random newRandom = new Random();
+        int randomNumber = newRandom.Next(100000000);
+        sessionIdParameter.Value = randomNumber;
+        cmd.Parameters.Add(sessionIdParameter);
+
+        cmd.ExecuteNonQuery();
+        sessionId = randomNumber;
+      }
+
+      conn.Close();
+      if (!(conn == null))
+      {
+        conn.Dispose();
+      }
+
+      return sessionId;
     }
   }
 }
