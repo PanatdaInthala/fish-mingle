@@ -5,7 +5,6 @@ using FishMingle.Models;
 
 namespace FishMingle.Controllers
 {
-
   public class UserController : Controller
   {
     //USER IS ABLE TO BROWSE OTHER PROFILES ON THIS PAGE
@@ -14,6 +13,13 @@ namespace FishMingle.Controllers
     {
       List<User> userList = User.GetAll();
       return View(userList);
+    }
+
+    [HttpGet("/users/{id}")]
+    public ActionResult ViewProfile(int id)
+    {
+      User newUser = User.Find(id);
+      return View(newUser);
     }
 
     //FORM FOR CREATING USER
@@ -63,5 +69,15 @@ namespace FishMingle.Controllers
       thisUser.UpdateUser(Request.Form["UpdateUsername"]);
       return View ("UpdateUsernameConfirmation");
     }
+
+    //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
+
+    [HttpGet("users/{id}/matchmaking")]
+    public ActionResult ViewMatchMaking()
+    {
+      List<User> userList = User.//METHOD TO RETRIEVE MATCHES
+      return View ()
+    }
+
   }
 }
