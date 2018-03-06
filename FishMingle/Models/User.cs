@@ -8,15 +8,15 @@ namespace FishMingle.Models
   {
     private int _id;
     private string _name;
-    private string _species;
+    private int _speciesId;
     private string _userName;
     private string _password;
 
-    public User(string name, string species, string userName, string password, int id = 0)
+    public User(string name, int speciesId, string userName, string password, int id = 0)
     {
       _id = id;
       _name = name;
-      _species = species;
+      _speciesId = speciesId;
       _userName = userName;
       _password = password;
     }
@@ -41,14 +41,14 @@ namespace FishMingle.Models
       _name = name;
     }
 
-    public string GetSpecies()
+    public int GetSpeciesId()
     {
-      return _species;
+      return _speciesId;
     }
 
-    public void SetSpecies(string species)
+    public void SetSpeciesId(int speciesId)
     {
-      _species = species;
+      _speciesId = speciesId;
     }
 
     public string GetUserName()
@@ -83,11 +83,11 @@ namespace FishMingle.Models
       {
         int userId = rdr.GetInt32(0);
         string name = rdr.GetString(1);
-        string species = rdr.GetString(2);
+        int speciesId = rdr.GetInt32(2);
         string userName = rdr.GetString(3);
         string password = rdr.GetString(4);
 
-        User newUser = new User(name, species, userName, password, userId);
+        User newUser = new User(name, speciesId, userName, password, userId);
         allUsers.Add(newUser);
       }
       conn.Close();
@@ -127,15 +127,15 @@ namespace FishMingle.Models
         conn = DB.Connection();
         conn.Open();
         cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"INSERT INTO users (name, species, user_name, password) VALUES (@name, @species, @userName, @userPassword);";
+        cmd.CommandText = @"INSERT INTO users (name, species_id, user_name, password) VALUES (@name, @speciesId, @userName, @userPassword);";
 
         MySqlParameter name = new MySqlParameter("@name", _name);
-        MySqlParameter species = new MySqlParameter("@species", _species);
+        MySqlParameter speciesId = new MySqlParameter("@speciesId", _speciesId);
         MySqlParameter userName = new MySqlParameter("@userName", _userName);
         MySqlParameter password = new MySqlParameter("@userPassword", _password);
 
         cmd.Parameters.Add(name);
-        cmd.Parameters.Add(species);
+        cmd.Parameters.Add(speciesId);
         cmd.Parameters.Add(userName);
         cmd.Parameters.Add(password);
 
@@ -169,7 +169,7 @@ namespace FishMingle.Models
 
       int userId = 0;
       string name = "";
-      string species = "";
+      int speciesId = 0;
       string userName = "";
       string password = "";
 
@@ -177,12 +177,12 @@ namespace FishMingle.Models
       {
         userId = rdr.GetInt32(0);
         name = rdr.GetString(1);
-        species = rdr.GetString(2);
+        speciesId = rdr.GetInt32(2);
         userName = rdr.GetString(3);
         password = rdr.GetString(4);
       }
 
-      User foundUser= new User(name, species, userName, password, userId);
+      User foundUser= new User(name, speciesId, userName, password, userId);
 
       conn.Close();
       if (conn != null)
@@ -367,6 +367,62 @@ namespace FishMingle.Models
       {
         conn.Dispose();
       }
+    }
+    public void AddPreference(User newUser)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO users_users (fish1_id, fish2_id) VALUES (@UserId, @NewFishId);";
+
+      MySqlParameter userId = new MySqlParameter();
+      userId.ParameterName = "@UserId";
+      userId.Value = _id;
+      cmd.Parameters.Add(userId);
+
+      MySqlParameter newFishId = new MySqlParameter();
+      newFishId.ParameterName = "@NewFishId";
+      newFishId.Value = newUser.GetId();
+      cmd.Parameters.Add(newFishId);
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+    public List<User> GetPreferences()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT B.* FROM users AS A JOIN users_users ON (A.id = users_users.fish1_id) JOIN users AS B ON (users_users.fish2_id = B.id) WHERE A.id = @UserId;";
+
+      MySqlParameter userIdParameter = new MySqlParameter();
+      userIdParameter.ParameterName = "@UserId";
+      userIdParameter.Value = _id;
+      cmd.Parameters.Add(userIdParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<User> users = new List<User>{};
+
+      while(rdr.Read())
+      {
+        int userId = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        int speciesId = rdr.GetInt32(2);
+        string userName = rdr.GetString(3);
+        string password = rdr.GetString(4);
+        User newUser = new User(name, speciesId, userName, password, userId);
+        users.Add(newUser);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+      return users;
     }
   }
 }
