@@ -20,46 +20,57 @@ namespace FishMingle.Models
       _userName = userName;
       _password = password;
     }
+
     public int GetId()
     {
       return _id;
     }
+
     public void SetId(int id)
     {
       _id = id;
     }
+
     public string GetName()
     {
       return _name;
     }
+
     public void SetName(string name)
     {
       _name = name;
     }
+
     public string GetSpecies()
     {
       return _species;
     }
+
     public void SetSpecies(string species)
     {
       _species = species;
     }
+
     public string GetUserName()
     {
       return _userName;
     }
+
     public void SetUserName(string userName)
     {
       _userName = userName;
     }
+
     public string GetPassword()
     {
       return _password;
     }
+
     public void SetPassword(string password)
     {
       _password = password;
     }
+
     public static List<User> GetAll()
     {
       List<User> allUsers = new List<User>{};
@@ -86,6 +97,7 @@ namespace FishMingle.Models
       }
       return allUsers;
     }
+
     public bool Save()
     {
       MySqlConnection conn = DB.Connection();
@@ -139,6 +151,7 @@ namespace FishMingle.Models
       }
       return false;
     }
+
     public static User Find(int id)
     {
         MySqlConnection conn = DB.Connection();
@@ -179,6 +192,7 @@ namespace FishMingle.Models
 
         return foundUser;
     }
+
     public static void DeleteAll()
      {
        MySqlConnection conn = DB.Connection();
@@ -192,6 +206,7 @@ namespace FishMingle.Models
          conn.Dispose();
        }
      }
+
     public override bool Equals(System.Object otherUser)
     {
       if (!(otherUser is User))
@@ -204,6 +219,7 @@ namespace FishMingle.Models
         return this.GetId().Equals(newUser.GetId());
       }
     }
+    
     public override int GetHashCode()
     {
       return this.GetId().GetHashCode();
