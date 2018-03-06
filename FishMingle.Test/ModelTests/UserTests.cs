@@ -185,5 +185,27 @@ namespace FishMingle.Tests
       //Assert
       CollectionAssert.AreEqual(testList, savedUsers);
     }
+    [TestMethod]
+    public void GetMatches_ReturnsAllUserMatches_UserList()
+    {
+      //Arrange
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
+      testUser.Save();
+
+      User testUser2 = new User("Tom", 1, "Tom45", "Password1");
+      testUser2.Save();
+
+      testUser.AddPreference(testUser2);
+      testUser2.AddPreference(testUser);
+
+      //Act
+      List<User> savedUsers = testUser.GetPreferences();
+
+      List<User> testUserMatches = testUser.GetMatches(savedUsers);
+      List<User> savedUserMatches = new List<User> {testUser2};
+
+      //Assert
+      CollectionAssert.AreEqual(testUserMatches, savedUserMatches);
+    }
   }
 }

@@ -424,5 +424,22 @@ namespace FishMingle.Models
       }
       return users;
     }
+    public List<User> GetMatches(List<User> preferences)
+    {
+      List<User> matches = new List<User>{};
+      foreach (var user in preferences)
+      {
+        List<User> newList = user.GetPreferences();
+        foreach (var prefUser in newList)
+        {
+          if (prefUser.GetId() == _id)
+          {
+            matches.Add(user);
+          }
+        }
+      }
+      return matches;
+    }
+
   }
 }
