@@ -154,58 +154,80 @@ namespace FishMingle.Models
 
     public static User Find(int id)
     {
-        MySqlConnection conn = DB.Connection();
-        conn.Open();
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
-        var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
 
-        MySqlParameter thisId = new MySqlParameter();
-        thisId.ParameterName = "@thisId";
-        thisId.Value = id;
-        cmd.Parameters.Add(thisId);
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = id;
+      cmd.Parameters.Add(thisId);
 
-        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
-        int userId = 0;
-        string name = "";
-        string species = "";
-        string userName = "";
-        string password = "";
+      int userId = 0;
+      string name = "";
+      string species = "";
+      string userName = "";
+      string password = "";
 
-        while (rdr.Read())
-        {
-          userId = rdr.GetInt32(0);
-          name = rdr.GetString(1);
-          species = rdr.GetString(2);
-          userName = rdr.GetString(3);
-          password = rdr.GetString(4);
-        }
+      while (rdr.Read())
+      {
+        userId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        species = rdr.GetString(2);
+        userName = rdr.GetString(3);
+        password = rdr.GetString(4);
+      }
 
-        User foundUser= new User(name, species, userName, password, userId);
+      User foundUser= new User(name, species, userName, password, userId);
 
-        conn.Close();
-        if (conn != null)
-        {
-            conn.Dispose();
-        }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
 
-        return foundUser;
+      return foundUser;
     }
 
     public static void DeleteAll()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM users;";
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
+    public void Delete()
+   {
+     MySqlConnection conn = DB.Connection();
+     conn.Open();
+
+     var cmd = conn.CreateCommand() as MySqlCommand;
+     cmd.CommandText = @"DELETE FROM users WHERE id = @thisId";
+
+     MySqlParameter deleteId = new MySqlParameter();
+     deleteId.ParameterName = "@thisId";
+     deleteId.Value = this.GetId();
+     cmd.Parameters.Add(deleteId);
+
+     cmd.ExecuteNonQuery();
+
+     conn.Close();
+     if (conn != null)
      {
-       MySqlConnection conn = DB.Connection();
-       conn.Open();
-       var cmd = conn.CreateCommand() as MySqlCommand;
-       cmd.CommandText = @"DELETE FROM users;";
-       cmd.ExecuteNonQuery();
-       conn.Close();
-       if (conn != null)
-       {
-         conn.Dispose();
-       }
+       conn.Dispose();
      }
+   }
 
     public override bool Equals(System.Object otherUser)
     {
@@ -219,12 +241,13 @@ namespace FishMingle.Models
         return this.GetId().Equals(newUser.GetId());
       }
     }
-    
+
     public override int GetHashCode()
     {
       return this.GetId().GetHashCode();
     }
-        public static int Login(string userName, string password)
+
+    public static int Login(string userName, string password)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
@@ -277,6 +300,73 @@ namespace FishMingle.Models
       }
 
       return sessionId;
+    }
+
+    public static void Logout(int sessionId)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM sessions WHERE session_id = @sessionId;";
+
+      MySqlParameter thisSessionId = new MySqlParameter("@sessionId", sessionId);
+      cmd.Parameters.Add(thisSessionId);
+
+      cmd.ExecuteNonQuery();
+
+      conn.Dispose();
+    }
+    public void UpdateUser(string newUserName)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE users SET name = @NewUserName WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter();
+      searchId.ParameterName = "@searchId";
+      searchId.Value = _id;
+      cmd.Parameters.Add(searchId);
+
+      MySqlParameter userName = new MySqlParameter();
+      userName.ParameterName = "@newUserName";
+      userName.Value = newUserName;
+      cmd.Parameters.Add(userName);
+
+      cmd.ExecuteNonQuery();
+      _userName = newUserName;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+    public void UpdatePassword(string newPassword)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE users SET password = @NewPassword WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter();
+      searchId.ParameterName = "@searchId";
+      searchId.Value = _id;
+      cmd.Parameters.Add(searchId);
+
+      MySqlParameter userPassword = new MySqlParameter();
+      userPassword.ParameterName = "@newPassword";
+      userPassword.Value = newPassword;
+      cmd.Parameters.Add(userPassword);
+
+      cmd.ExecuteNonQuery();
+      _password = newPassword;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
     }
   }
 }
