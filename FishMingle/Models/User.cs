@@ -424,10 +424,38 @@ namespace FishMingle.Models
       }
       return users;
     }
-    public List<User> GetMatches(List<User> preferences)
+    public List<User> GetMatches()
     {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT B.* FROM users AS A JOIN users_users ON (A.id = users_users.fish1_id) JOIN users AS B ON (users_users.fish2_id = B.id) WHERE A.id = @UserId;";
+
+      MySqlParameter userIdParameter = new MySqlParameter();
+      userIdParameter.ParameterName = "@UserId";
+      userIdParameter.Value = _id;
+      cmd.Parameters.Add(userIdParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<User> users = new List<User>{};
+
+      while(rdr.Read())
+      {
+        int userId = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        int speciesId = rdr.GetInt32(2);
+        string userName = rdr.GetString(3);
+        string password = rdr.GetString(4);
+        User newUser = new User(name, speciesId, userName, password, userId);
+        users.Add(newUser);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
       List<User> matches = new List<User>{};
-      foreach (var user in preferences)
+      foreach (var user in users)
       {
         List<User> newList = user.GetPreferences();
         foreach (var prefUser in newList)
@@ -440,6 +468,5 @@ namespace FishMingle.Models
       }
       return matches;
     }
-
   }
 }

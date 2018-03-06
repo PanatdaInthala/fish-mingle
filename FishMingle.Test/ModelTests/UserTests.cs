@@ -199,9 +199,7 @@ namespace FishMingle.Tests
       testUser2.AddPreference(testUser);
 
       //Act
-      List<User> savedUsers = testUser.GetPreferences();
-
-      List<User> testUserMatches = testUser.GetMatches(savedUsers);
+      List<User> testUserMatches = testUser.GetMatches();
       List<User> savedUserMatches = new List<User> {testUser2};
 
       //Assert
