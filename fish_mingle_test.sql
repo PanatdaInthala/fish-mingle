@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Mar 06, 2018 at 12:22 AM
+-- Generation Time: Mar 06, 2018 at 05:54 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.0.15
 
@@ -25,24 +25,26 @@ USE `fish_mingle_test`;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `interest`
+-- Table structure for table `sessions`
 --
 
-CREATE TABLE `interest` (
-  `id` int(11) NOT NULL,
-  `species_list` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE `sessions` (
+  `id` bigint(20) NOT NULL,
+  `user_id` int(255) NOT NULL,
+  `session_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `session`
+-- Table structure for table `species`
 --
 
-CREATE TABLE `session` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(255) NOT NULL,
-  `session_id` bigint(20) NOT NULL
+DROP TABLE IF EXISTS `species`;
+CREATE TABLE `species` (
+  `species_id` int(255) NOT NULL,
+  `species_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -51,6 +53,7 @@ CREATE TABLE `session` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -62,13 +65,14 @@ CREATE TABLE `users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users_interests`
+-- Table structure for table `users_species`
 --
 
-CREATE TABLE `users_interests` (
+DROP TABLE IF EXISTS `users_species`;
+CREATE TABLE `users_species` (
   `id` int(11) NOT NULL,
-  `fish_id` int(11) NOT NULL,
-  `interest_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `species_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -77,6 +81,7 @@ CREATE TABLE `users_interests` (
 -- Table structure for table `users_users`
 --
 
+DROP TABLE IF EXISTS `users_users`;
 CREATE TABLE `users_users` (
   `id` int(11) NOT NULL,
   `fish1_id` int(11) NOT NULL,
@@ -88,16 +93,16 @@ CREATE TABLE `users_users` (
 --
 
 --
--- Indexes for table `interest`
+-- Indexes for table `sessions`
 --
-ALTER TABLE `interest`
+ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `session`
+-- Indexes for table `species`
 --
-ALTER TABLE `session`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `species`
+  ADD PRIMARY KEY (`species_id`);
 
 --
 -- Indexes for table `users`
@@ -106,9 +111,9 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users_interests`
+-- Indexes for table `users_species`
 --
-ALTER TABLE `users_interests`
+ALTER TABLE `users_species`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -122,24 +127,24 @@ ALTER TABLE `users_users`
 --
 
 --
--- AUTO_INCREMENT for table `interest`
+-- AUTO_INCREMENT for table `sessions`
 --
-ALTER TABLE `interest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `session`
---
-ALTER TABLE `session`
+ALTER TABLE `sessions`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `species`
+--
+ALTER TABLE `species`
+  MODIFY `species_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `users_interests`
+-- AUTO_INCREMENT for table `users_species`
 --
-ALTER TABLE `users_interests`
+ALTER TABLE `users_species`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users_users`
