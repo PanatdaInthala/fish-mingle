@@ -62,12 +62,21 @@ namespace FishMingle.Tests
     {
         //Arrange
         User testUser = new User("Jim", "Human", "Jim45", "Password1");
-        testUser.SaveUser();
+        testUser.Save();
         //Act
         User foundUser = User.Find(testUser.GetId());
         //Assert
         Assert.AreEqual(testUser, foundUser);
+    }
+    [TestMethod]
+    public void Login_TrueForSamePassword_User()
+    {
+      //Arrange, Act
+      User User = new User("Jim", "Human", "Jim45", "Password1");
+      User databaseInfo = new User("Jim", "Human", "Jim45", "Password1");
 
+      //Assert
+      Assert.AreEqual(User, databaseInfo);
     }
   }
 }
