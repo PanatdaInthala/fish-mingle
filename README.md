@@ -9,3 +9,5 @@ Fish Mingle Specifications
 7. When a user is viewing a profile, they should be able to like the profile.
 8. The user should receive notifications when another user likes their profile(optional?lol)
 9. When two users like each others profile, the users should be directed to a match page.
+
+GetMatches() Query: SELECT B.* FROM users AS A JOIN users_users ON (A.id = users_users.fish1_id) JOIN users AS B ON (users_users.fish2_id = B.id) WHERE A.id = 1
