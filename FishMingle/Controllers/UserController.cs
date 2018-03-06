@@ -1,83 +1,83 @@
-// using System.Collections.Generic;
-// using System;
-// using MySql.Data.MySqlClient;
-// using Microsoft.AspNetCore.Mvc;
-// using FishMingle.Models;
-//
-// namespace FishMingle.Controllers
-// {
-//   public class UserController : Controller
-//   {
-//     [HttpGet("/users")]
-//     public ActionResult Users()
-//     {
-//       List<User> userList = User.GetAll();
-//       return View(userList);
-//     }
-//
-//     [HttpGet("/users/{id}")]
-//     public ActionResult ViewProfile(int id)
-//     {
-//       User newUser = User.Find(id);
-//       return View(newUser);
-//     }
-//
-//     //FORM FOR CREATING USER
-//     [HttpGet("/users/create")]
-//     public ActionResult CreateUserForm()
-//     {
-//       return View("NewUserForm");
-//     }
-//
-//     [HttpPost("/users")]
-//     public ActionResult CreateUser()
-//     {
-//       string userNameActual = Request.Form["userName"];
-//       //THE USERS SPECIES ID WILL BE INPUT HERE
-//       string userNameProfile = Request.Form["userNameProfile"];
-//       string userPassword = Request.Form["userPassword"];
-//       User newUser = new User( userNameActual, speciesId, userNameProfile, userPassword );
-//       newUser.Save();
-//
-//       return View("UserConfirmation", newUser);
-//     }
-//
-//     [HttpGet("users/{id}/update/password")]
-//     public ActionResult UpdatePasswordForm()
-//     {
-//       return View("UpdatePasswordForm");
-//     }
-//
-//     [HttpPost("users/{id}/update/password")]
-//     public ActionResult UpdatePassword()
-//     {
-//       User thisUser = User.Find(id);
-//       thisUser.UpdatePassword(Request.Form["updatePassword"]);
-//       return View ("UpdatePasswordConfirmation");
-//     }
-// 
-//     [HttpGet("users/{id}/update/username")]
-//     public ActionResult UpdateUsernameForm()
-//     {
-//       return View ("UpdateUserNameForm");
-//     }
-//
-//     [HttpPost("users/{id}/update/userName")]
-//     public ActionResult UpdateUsername()
-//     {
-//       User thisUser = User.Find(id);
-//       thisUser.UpdateUser(Request.Form["UpdateUsername"]);
-//       return View ("UpdateUsernameConfirmation");
-//     }
-//
-//     //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
-//
-//     [HttpGet("users/{id}/matchmaking")]
-//     public ActionResult ViewMatchMaking()
-//     {
-//       List<User> userList = User.GetMatches();//METHOD TO RETRIEVE MATCHES
-//       return View (userList);
-//     }
-//
-//   }
-// }
+using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using FishMingle.Models;
+
+namespace FishMingle.Controllers
+{
+  public class UserController : Controller
+  {
+    //USER IS ABLE TO BROWSE OTHER PROFILES ON THIS PAGE
+    [HttpGet("/fish")]
+    public ActionResult Fish()
+    {
+      List<Fish> fishList = Fish.GetAll();
+      return View(fishList);
+    }
+
+    [HttpGet("/fish/{id}")]
+    public ActionResult ViewProfile(int id)
+    {
+      Fish newFish = Fish.Find(id);
+      return View(newFish);
+    }
+
+    //FORM FOR CREATING USER
+    [HttpGet("/fish/create")]
+    public ActionResult CreateFishForm()
+    {
+      return View("NewFishForm");
+    }
+
+    [HttpPost("/fish")]
+    public ActionResult CreateFish()
+    {
+      string userNameActual = Request.Form["userName"];
+      //THE USERS SPECIES ID WILL BE INPUT HERE
+      string userNameProfile = Request.Form["userNameProfile"]);
+      string userPassword = Request.Form["userPassword"]);
+      Fish newFish = new Fish( userNameActual, speciesId, userNameProfile, userPassword );
+      newFish.Save();
+
+      return View("UserConfirmation", newFish);
+    }
+
+    [HttpGet("fish/{id}/update/password")]
+    public ActionResult UpdatePasswordForm()
+    {
+      return View("UpdatePasswordForm");
+    }
+
+    [HttpPost("fish/{id}/update/password")]
+    public ActionResult UpdatePassword()
+    {
+      Fish thisFish = Fish.Find(id);
+      thisFish.UpdatePassword(Request.Form["updatePassword"]);
+      return View ("UpdatePasswordConfirmation");
+    }
+
+    [HttpGet("fish/{id}/update/username")]
+    public ActionResult UpdateUsername()
+    {
+      return View ("UpdateUserNameForm");
+    }
+
+    [HttpPost("fish/{id}/update/userName")]
+    public ActionResult UpdateUsername()
+    {
+      Fish thisFish = Fish.Find(id);
+      thisFish.UpdateFish(Request.Form["UpdateUsername"]);
+      return View ("UpdateUsernameConfirmation");
+    }
+
+    //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
+
+    [HttpGet("fish/{id}/matchmaking")]
+    public ActionResult ViewMatchMaking()
+    {
+      List<Fish> userList = Fish.GetMatches();
+      return View ()
+    }
+
+  }
+}
