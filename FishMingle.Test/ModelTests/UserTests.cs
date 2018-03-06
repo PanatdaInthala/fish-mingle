@@ -21,8 +21,8 @@ namespace FishMingle.Tests
     public void Equals_TrueForSameUser_User()
     {
       //Arrange, Act
-      User firstUser = new User("Jim", "Human", "Jim45", "Password1");
-      User secondUser = new User("Jim", "Human", "Jim45", "Password1");
+      User firstUser = new User("Jim", 1, "Jim45", "Password1");
+      User secondUser = new User("Jim", 1, "Jim45", "Password1");
 
       //Assert
       Assert.AreEqual(firstUser, secondUser);
@@ -31,7 +31,7 @@ namespace FishMingle.Tests
     public void Save_UserSavesToDatabase_UserList()
     {
       //Arrange
-      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
       testUser.Save();
 
       //Act
@@ -45,7 +45,7 @@ namespace FishMingle.Tests
     public void Save_AssignsIdToObject_id()
     {
       //Arrange
-      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
       testUser.Save();
 
       //Act
@@ -61,7 +61,7 @@ namespace FishMingle.Tests
     public void Find_FindUserInDatabase_true()
     {
         //Arrange
-        User testUser = new User("Jim", "Human", "Jim45", "Password1");
+        User testUser = new User("Jim", 1, "Jim45", "Password1");
         testUser.Save();
         //Act
         User foundUser = User.Find(testUser.GetId());
@@ -72,7 +72,7 @@ namespace FishMingle.Tests
     public void Login_TrueForSamePassword_User()
     {
       //Arrange, Act
-      User user = new User("Jim", "Human", "Jim45", "Password1");
+      User user = new User("Jim", 1, "Jim45", "Password1");
       user.Save();
       User databaseInfo = User.Find(user.GetId()) ;
 
@@ -83,9 +83,9 @@ namespace FishMingle.Tests
     public void Delete_DeletesUserInDatabase_Void()
     {
       //Arrange
-      User firstUser = new User("Jim", "Human", "Jim45", "Password1");
+      User firstUser = new User("Jim", 1, "Jim45", "Password1");
       firstUser.Save();
-      User secondUser = new User ("James", "Human", "James45", "Password2");
+      User secondUser = new User ("James", 1, "James45", "Password2");
       secondUser.Save();
       //Act
       firstUser.Delete();
@@ -99,9 +99,9 @@ namespace FishMingle.Tests
     public void Logout_LogoutsUser_Void()
     {
       //Arrange
-      User firstUser = new User("Jim", "Human", "Jim45", "Password1");
+      User firstUser = new User("Jim", 1, "Jim45", "Password1");
       firstUser.Save();
-      User secondUser = new User ("James", "Human", "James45", "Password2");
+      User secondUser = new User ("James", 1, "James45", "Password2");
       secondUser.Save();
 
       //Act
@@ -116,7 +116,7 @@ namespace FishMingle.Tests
     public void UpdateUser_UpdatesUserInDatabase_String()
     {
       //Arrange
-      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
       testUser.Save();
 
       string updatedUser = "Nick";
@@ -132,7 +132,7 @@ namespace FishMingle.Tests
     public void UpdatePassword_UpdatesPasswordInDatabase_String()
     {
       //Arrange
-      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
       testUser.Save();
 
       string updatedPassword = "Password2";
@@ -143,6 +143,47 @@ namespace FishMingle.Tests
 
       //Assert
       Assert.AreEqual(updatedPassword, result);
+    }
+    [TestMethod]
+    public void Test_AddPreference_AddsUserToPreferences()
+    {
+      //Arrange
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
+      testUser.Save();
+
+      User testUser1 = new User("Tom", 1, "Tom45", "Password1");
+      testUser1.Save();
+
+      User testUser2 = new User("Sam", 1, "Sam45", "Password1");
+      testUser2.Save();
+
+      //Act
+      testUser.AddPreference(testUser1);
+      testUser.AddPreference(testUser2);
+
+      List<User> result = testUser.GetPreferences();
+      List<User> testList = new List<User>{testUser1, testUser2};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
+    [TestMethod]
+    public void GetPreferences_ReturnsAllUserPreferences_UserList()
+    {
+      //Arrange
+      User testUser = new User("Jim", 1, "Jim45", "Password1");
+      testUser.Save();
+
+      User testUser1 = new User("Tom", 1, "Tom45", "Password1");
+      testUser1.Save();
+
+      //Act
+      testUser.AddPreference(testUser1);
+      List<User> savedUsers = testUser.GetPreferences();
+      List<User> testList = new List<User> {testUser1};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, savedUsers);
     }
   }
 }
