@@ -7,36 +7,36 @@ using System;
 namespace FishMingle.Tests
 {
   [TestClass]
-  public class UserTest: IDisposable
+  public class FishTest: IDisposable
   {
-    public UserTest()
+    public FishTest()
     {
       DBConfiguration.ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=fish_mingle_test;";
     }
     public void Dispose()
     {
-      User.DeleteAll();
+      Fish.DeleteAll();
     }
     [TestMethod]
-    public void Equals_TrueForSameUser_User()
+    public void Equals_TrueForSameFish_Fish()
     {
       //Arrange, Act
-      User firstUser = new User("Jim", 1, "Jim45", "Password1");
-      User secondUser = new User("Jim", 1, "Jim45", "Password1");
+      Fish firstFish = new Fish("Jim", 1, "Jim45", "Password1");
+      Fish secondFish = new Fish("Jim", 1, "Jim45", "Password1");
 
       //Assert
-      Assert.AreEqual(firstUser, secondUser);
+      Assert.AreEqual(firstFish, secondFish);
     }
     [TestMethod]
-    public void Save_UserSavesToDatabase_UserList()
+    public void Save_FishSavesToDatabase_FishList()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
       //Act
-      List<User> result = User.GetAll();
-      List<User> testList = new List<User>{testUser};
+      List<Fish> result = Fish.GetAll();
+      List<Fish> testList = new List<Fish>{testFish};
 
       //Assert
       CollectionAssert.AreEqual(testList, result);
@@ -45,165 +45,165 @@ namespace FishMingle.Tests
     public void Save_AssignsIdToObject_id()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
       //Act
-      User savedUser = User.GetAll()[0];
+      Fish savedFish = Fish.GetAll()[0];
 
-      int result = savedUser.GetId();
-      int testId = testUser.GetId();
+      int result = savedFish.GetId();
+      int testId = testFish.GetId();
 
       //Assert
       Assert.AreEqual(testId, result);
     }
     [TestMethod]
-    public void Find_FindUserInDatabase_true()
+    public void Find_FindFishInDatabase_true()
     {
         //Arrange
-        User testUser = new User("Jim", 1, "Jim45", "Password1");
-        testUser.Save();
+        Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+        testFish.Save();
         //Act
-        User foundUser = User.Find(testUser.GetId());
+        Fish foundFish = Fish.Find(testFish.GetId());
         //Assert
-        Assert.AreEqual(testUser, foundUser);
+        Assert.AreEqual(testFish, foundFish);
     }
     [TestMethod]
-    public void Login_TrueForSamePassword_User()
+    public void Login_TrueForSamePassword_Fish()
     {
       //Arrange, Act
-      User user = new User("Jim", 1, "Jim45", "Password1");
+      Fish user = new Fish("Jim", 1, "Jim45", "Password1");
       user.Save();
-      User databaseInfo = User.Find(user.GetId()) ;
+      Fish databaseInfo = Fish.Find(user.GetId()) ;
 
       //Assert
       Assert.AreEqual(user, databaseInfo);
     }
     [TestMethod]
-    public void Delete_DeletesUserInDatabase_Void()
+    public void Delete_DeletesFishInDatabase_Void()
     {
       //Arrange
-      User firstUser = new User("Jim", 1, "Jim45", "Password1");
-      firstUser.Save();
-      User secondUser = new User ("James", 1, "James45", "Password2");
-      secondUser.Save();
+      Fish firstFish = new Fish("Jim", 1, "Jim45", "Password1");
+      firstFish.Save();
+      Fish secondFish = new Fish ("James", 1, "James45", "Password2");
+      secondFish.Save();
       //Act
-      firstUser.Delete();
-      List<User> expected = new List<User> {secondUser};
-      List<User> result = User.GetAll();
+      firstFish.Delete();
+      List<Fish> expected = new List<Fish> {secondFish};
+      List<Fish> result = Fish.GetAll();
 
       //Assert
       CollectionAssert.AreEqual(expected, result);
     }
     [TestMethod]
-    public void Logout_LogoutsUser_Void()
+    public void Logout_LogoutsFish_Void()
     {
       //Arrange
-      User firstUser = new User("Jim", 1, "Jim45", "Password1");
-      firstUser.Save();
-      User secondUser = new User ("James", 1, "James45", "Password2");
-      secondUser.Save();
+      Fish firstFish = new Fish("Jim", 1, "Jim45", "Password1");
+      firstFish.Save();
+      Fish secondFish = new Fish ("James", 1, "James45", "Password2");
+      secondFish.Save();
 
       //Act
-      User.Logout(firstUser.GetId());
-      List<User> expected = new List<User> {firstUser, secondUser};
-      List<User> result = User.GetAll();
+      Fish.Logout(firstFish.GetId());
+      List<Fish> expected = new List<Fish> {firstFish, secondFish};
+      List<Fish> result = Fish.GetAll();
 
       //Assert
       CollectionAssert.AreEqual(expected, result);
     }
     [TestMethod]
-    public void UpdateUser_UpdatesUserInDatabase_String()
+    public void UpdateFish_UpdatesFishInDatabase_String()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
-      string updatedUser = "Nick";
+      string updatedFish = "Nick";
       //Act
-      testUser.UpdateUser(updatedUser);
+      testFish.UpdateFish(updatedFish);
 
-      string result = User.Find(testUser.GetId()).GetName();
+      string result = Fish.Find(testFish.GetId()).GetName();
 
       //Assert
-      Assert.AreEqual(updatedUser, result);
+      Assert.AreEqual(updatedFish, result);
     }
     [TestMethod]
     public void UpdatePassword_UpdatesPasswordInDatabase_String()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
       string updatedPassword = "Password2";
       //Act
-      testUser.UpdatePassword(updatedPassword);
+      testFish.UpdatePassword(updatedPassword);
 
-      string result = User.Find(testUser.GetId()).GetPassword();
+      string result = Fish.Find(testFish.GetId()).GetPassword();
 
       //Assert
       Assert.AreEqual(updatedPassword, result);
     }
     [TestMethod]
-    public void Test_AddPreference_AddsUserToPreferences()
+    public void Test_AddPreference_AddsFishToPreferences()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
-      User testUser1 = new User("Tom", 1, "Tom45", "Password1");
-      testUser1.Save();
+      Fish testFish1 = new Fish("Tom", 1, "Tom45", "Password1");
+      testFish1.Save();
 
-      User testUser2 = new User("Sam", 1, "Sam45", "Password1");
-      testUser2.Save();
+      Fish testFish2 = new Fish("Sam", 1, "Sam45", "Password1");
+      testFish2.Save();
 
       //Act
-      testUser.AddPreference(testUser1);
-      testUser.AddPreference(testUser2);
+      testFish.AddPreference(testFish1);
+      testFish.AddPreference(testFish2);
 
-      List<User> result = testUser.GetPreferences();
-      List<User> testList = new List<User>{testUser1, testUser2};
+      List<Fish> result = testFish.GetPreferences();
+      List<Fish> testList = new List<Fish>{testFish1, testFish2};
 
       //Assert
       CollectionAssert.AreEqual(testList, result);
     }
     [TestMethod]
-    public void GetPreferences_ReturnsAllUserPreferences_UserList()
+    public void GetPreferences_ReturnsAllFishPreferences_FishList()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
-      User testUser1 = new User("Tom", 1, "Tom45", "Password1");
-      testUser1.Save();
+      Fish testFish1 = new Fish("Tom", 1, "Tom45", "Password1");
+      testFish1.Save();
 
       //Act
-      testUser.AddPreference(testUser1);
-      List<User> savedUsers = testUser.GetPreferences();
-      List<User> testList = new List<User> {testUser1};
+      testFish.AddPreference(testFish1);
+      List<Fish> savedFishs = testFish.GetPreferences();
+      List<Fish> testList = new List<Fish> {testFish1};
 
       //Assert
-      CollectionAssert.AreEqual(testList, savedUsers);
+      CollectionAssert.AreEqual(testList, savedFishs);
     }
     [TestMethod]
-    public void GetMatches_ReturnsAllUserMatches_UserList()
+    public void GetMatches_ReturnsAllFishMatches_FishList()
     {
       //Arrange
-      User testUser = new User("Jim", 1, "Jim45", "Password1");
-      testUser.Save();
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
 
-      User testUser2 = new User("Tom", 1, "Tom45", "Password1");
-      testUser2.Save();
+      Fish testFish2 = new Fish("Tom", 1, "Tom45", "Password1");
+      testFish2.Save();
 
-      testUser.AddPreference(testUser2);
-      testUser2.AddPreference(testUser);
+      testFish.AddPreference(testFish2);
+      testFish2.AddPreference(testFish);
 
       //Act
-      List<User> testUserMatches = testUser.GetMatches();
-      List<User> savedUserMatches = new List<User> {testUser2};
+      List<Fish> testFishMatches = testFish.GetMatches();
+      List<Fish> savedFishMatches = new List<Fish> {testFish2};
 
       //Assert
-      CollectionAssert.AreEqual(testUserMatches, savedUserMatches);
+      CollectionAssert.AreEqual(testFishMatches, savedFishMatches);
     }
   }
 }
