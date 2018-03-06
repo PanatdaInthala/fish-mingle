@@ -72,11 +72,77 @@ namespace FishMingle.Tests
     public void Login_TrueForSamePassword_User()
     {
       //Arrange, Act
-      User User = new User("Jim", "Human", "Jim45", "Password1");
-      User databaseInfo = new User("Jim", "Human", "Jim45", "Password1");
+      User user = new User("Jim", "Human", "Jim45", "Password1");
+      user.Save();
+      User databaseInfo = User.Find(user.GetId()) ;
 
       //Assert
-      Assert.AreEqual(User, databaseInfo);
+      Assert.AreEqual(user, databaseInfo);
+    }
+    [TestMethod]
+    public void Delete_DeletesUserInDatabase_Void()
+    {
+      //Arrange
+      User firstUser = new User("Jim", "Human", "Jim45", "Password1");
+      firstUser.Save();
+      User secondUser = new User ("James", "Human", "James45", "Password2");
+      secondUser.Save();
+      //Act
+      firstUser.Delete();
+      List<User> expected = new List<User> {secondUser};
+      List<User> result = User.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(expected, result);
+    }
+    [TestMethod]
+    public void Logout_LogoutsUser_Void()
+    {
+      //Arrange
+      User firstUser = new User("Jim", "Human", "Jim45", "Password1");
+      firstUser.Save();
+      User secondUser = new User ("James", "Human", "James45", "Password2");
+      secondUser.Save();
+
+      //Act
+      User.Logout(firstUser.GetId());
+      List<User> expected = new List<User> {firstUser, secondUser};
+      List<User> result = User.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(expected, result);
+    }
+    [TestMethod]
+    public void UpdateUser_UpdatesUserInDatabase_String()
+    {
+      //Arrange
+      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      testUser.Save();
+
+      string updatedUser = "Nick";
+      //Act
+      testUser.UpdateUser(updatedUser);
+
+      string result = User.Find(testUser.GetId()).GetName();
+
+      //Assert
+      Assert.AreEqual(updatedUser, result);
+    }
+    [TestMethod]
+    public void UpdatePassword_UpdatesPasswordInDatabase_String()
+    {
+      //Arrange
+      User testUser = new User("Jim", "Human", "Jim45", "Password1");
+      testUser.Save();
+
+      string updatedPassword = "Password2";
+      //Act
+      testUser.UpdatePassword(updatedPassword);
+
+      string result = User.Find(testUser.GetId()).GetPassword();
+
+      //Assert
+      Assert.AreEqual(updatedPassword, result);
     }
   }
 }
