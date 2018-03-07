@@ -32,7 +32,7 @@ namespace FishMingle.Models
       {
           _speciesName = speciesName;
       }
-      public static List<Species> GetAll()
+      public static List<Species> GetAllSpecies()
       {
         List<Species> allSpecies = new List<Species>{};
         MySqlConnection conn = DB.Connection();
@@ -54,37 +54,38 @@ namespace FishMingle.Models
         }
         return allSpecies;
       }
+        
       public static Species Find(int speciesId)
       {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
 
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM species WHERE speciesId = (@searchId);";
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM species WHERE speciesId = (@searchId);";
 
-      MySqlParameter speciesIdParameter = new MySqlParameter();
-      speciesIdParameter.ParameterName = "@searchId";
-      speciesIdParameter.Value = speciesId;
-      cmd.Parameters.Add(speciesId);
+        MySqlParameter speciesIdParameter = new MySqlParameter();
+        speciesIdParameter.ParameterName = "@searchId";
+        speciesIdParameter.Value = speciesId;
+        cmd.Parameters.Add(speciesId);
 
-      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
-      int foundId = 0;
-      string foundName = "";
+        int foundId = 0;
+        string foundName = "";
 
-      while(rdr.Read())
-      {
-        foundId = rdr.GetInt32(0);
-        foundName = rdr.GetString(1);
-      }
+        while(rdr.Read())
+        {
+          foundId = rdr.GetInt32(0);
+          foundName = rdr.GetString(1);
+        }
 
-      Species foundSpecies = new Species(foundName, foundId);
-      conn.Close();
-      if (conn != null)
-      {
-        conn.Dispose();
-      }
-      return foundSpecies;
+        Species foundSpecies = new Species(foundName, foundId);
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return foundSpecies;
       }
   }
 }
