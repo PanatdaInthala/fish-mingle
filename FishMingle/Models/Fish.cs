@@ -208,26 +208,26 @@ namespace FishMingle.Models
     }
 
     public void Delete()
-   {
-     MySqlConnection conn = DB.Connection();
-     conn.Open();
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
 
-     var cmd = conn.CreateCommand() as MySqlCommand;
-     cmd.CommandText = @"DELETE FROM users WHERE id = @thisId";
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM users WHERE id = @thisId";
 
-     MySqlParameter deleteId = new MySqlParameter();
-     deleteId.ParameterName = "@thisId";
-     deleteId.Value = this.GetId();
-     cmd.Parameters.Add(deleteId);
+      MySqlParameter deleteId = new MySqlParameter();
+      deleteId.ParameterName = "@thisId";
+      deleteId.Value = this.GetId();
+      cmd.Parameters.Add(deleteId);
 
-     cmd.ExecuteNonQuery();
+      cmd.ExecuteNonQuery();
 
-     conn.Close();
-     if (conn != null)
-     {
-       conn.Dispose();
-     }
-   }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
 
     public override bool Equals(System.Object otherFish)
     {
@@ -369,12 +369,12 @@ namespace FishMingle.Models
       }
     }
     // GET SPECIES OF CURRENT FISH USER
-    public string GetFishSpecies()
+    public Species GetFishSpecies()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT species.name FROM users
+      cmd.CommandText = @"SELECT species.* FROM users
           WHERE users.species_id = @SpeciesId;";
 
       MySqlParameter stylistIdParameter = new MySqlParameter();
@@ -383,26 +383,54 @@ namespace FishMingle.Models
       cmd.Parameters.Add(stylistIdParameter);
 
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-      string speciesName = "";
+      string name = "";
+      int id = 0;
 
       while(rdr.Read())
       {
-        string name = rdr.GetString(0);
+        id = rdr.GetInt32(0);
+        name = rdr.GetString(0);
       }
+      Species newSpecies = new Species(name, id);
       conn.Close();
       if (conn != null)
       {
           conn.Dispose();
       }
-      return speciesName;
+      return newSpecies;
     }
-    //GET SPECIES (PLURAL) THAT CURRENT FISH USER PREFERS
+    //ADD A PREFERRED SPECIES TO CURRENT USER'S LIST
+    public void AddSpecies(Species newSpecies)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO users_species (user_id, species_id) VALUES (@userId, @SpeciesId);";
+
+      MySqlParameter user_id = new MySqlParameter();
+      user_id.ParameterName = "@UserId";
+      user_id.Value = _id;
+      cmd.Parameters.Add(user_id);
+
+      MySqlParameter species_id = new MySqlParameter();
+      species_id.ParameterName = "@SpeciesId";
+      species_id.Value = newSpecies.GetSpeciesId();
+      cmd.Parameters.Add(species_id);
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+    //GET SPECIES THAT CURRENT FISH USER PREFERS
     public List<Species> GetPreferredSpecies()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT species.* FROM users JOIN users_species ON (users.id = users_species.user_id) JOIN species ON (users_species.species_id = users.id) WHERE users.id = @FishId;";
+      cmd.CommandText = @"SELECT species.* FROM users JOIN users_species ON (users.id = users_species.user_id) JOIN species ON (species.species_id = users_species.species_id) WHERE users.id = @FishId";
 
       MySqlParameter FishIdParameter = new MySqlParameter();
       FishIdParameter.ParameterName = "@FishId";
@@ -426,7 +454,7 @@ namespace FishMingle.Models
       }
       return species;
     }
-    //ADDS A USER TO CURRENT FISH USER'S LIST OF PREFERRED FISH
+    //ADDS A FISH TO USER'S LIST OF PREFERRED FISH
     public void AddPreference(Fish newFish)
     {
       MySqlConnection conn = DB.Connection();
@@ -450,6 +478,39 @@ namespace FishMingle.Models
       {
         conn.Dispose();
       }
+    }
+    //GETS ALL FISH THAT PREFER FISH USER'S SPECIES
+    public List<Fish> GetFishThatPreferMySpecies()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT users.* FROM users_species JOIN users ON users.id = users_species.user_id WHERE users_species.species_id = @SpeciesId;";
+
+      MySqlParameter userIdParameter = new MySqlParameter();
+      userIdParameter.ParameterName = "@SpeciesId";
+      userIdParameter.Value = _speciesId;
+      cmd.Parameters.Add(userIdParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Fish> users = new List<Fish>{};
+
+      while(rdr.Read())
+      {
+        int userId = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        int speciesId = rdr.GetInt32(2);
+        string userName = rdr.GetString(3);
+        string password = rdr.GetString(4);
+        Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        users.Add(newFish);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+      return users;
     }
     //GETS CURRENT FISH USER'S LIST OF PREFERRED FISH
     public List<Fish> GetPreferences()
