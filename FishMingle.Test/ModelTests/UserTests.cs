@@ -144,6 +144,29 @@ namespace FishMingle.Tests
       //Assert
       Assert.AreEqual(updatedPassword, result);
     }
+// THIS METHOD SHOULD WORK IF WE ADD A SPECIES.SAVE() METHOD
+    
+    // [TestMethod]
+    // public void GetPreferredSpecies_ReturnsAllPreferredSpecies_SpeciesList()
+    // {
+    //   //Arrange
+    //   Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+    //   testFish.Save();
+    //
+    //   Species testSpecies1 = new Species("Angler");
+    //   testSpecies1.Save();
+    //
+    //   Species testSpecies2 = new Species("Whale Shark");
+    //   testSpecies2.Save();
+    //
+    //   //Act
+    //   testFish.AddSpecies(testSpecies1);
+    //   List<Species> savedSpecies = testFish.GetSpecies();
+    //   List<Species> testList = new List<Species> {testSpecies1};
+    //
+    //   //Assert
+    //   CollectionAssert.AreEqual(testList, savedItems);
+    // }
     [TestMethod]
     public void Test_AddPreference_AddsFishToPreferences()
     {

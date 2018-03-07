@@ -368,6 +368,65 @@ namespace FishMingle.Models
         conn.Dispose();
       }
     }
+    // GET SPECIES OF CURRENT FISH USER
+    public string GetFishSpecies()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT species.name FROM users
+          WHERE users.species_id = @SpeciesId;";
+
+      MySqlParameter stylistIdParameter = new MySqlParameter();
+      stylistIdParameter.ParameterName = "@SpeciesId";
+      stylistIdParameter.Value = _speciesId;
+      cmd.Parameters.Add(stylistIdParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      string speciesName = "";
+
+      while(rdr.Read())
+      {
+        string name = rdr.GetString(0);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+      return speciesName;
+    }
+    //GET SPECIES (PLURAL) THAT CURRENT FISH USER PREFERS
+    public List<Species> GetPreferredSpecies()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT species.* FROM users JOIN users_species ON (users.id = users_species.user_id) JOIN species ON (users_species.species_id = users.id) WHERE users.id = @FishId;";
+
+      MySqlParameter FishIdParameter = new MySqlParameter();
+      FishIdParameter.ParameterName = "@FishId";
+      FishIdParameter.Value = _id;
+      cmd.Parameters.Add(FishIdParameter);
+
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Species> species = new List<Species>{};
+
+      while(rdr.Read())
+      {
+        int id = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        Species newSpecies = new Species (name, id);
+        species.Add(newSpecies);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+          conn.Dispose();
+      }
+      return species;
+    }
+    //ADDS A USER TO CURRENT FISH USER'S LIST OF PREFERRED FISH
     public void AddPreference(Fish newFish)
     {
       MySqlConnection conn = DB.Connection();
@@ -392,6 +451,7 @@ namespace FishMingle.Models
         conn.Dispose();
       }
     }
+    //GETS CURRENT FISH USER'S LIST OF PREFERRED FISH
     public List<Fish> GetPreferences()
     {
       MySqlConnection conn = DB.Connection();
@@ -424,6 +484,7 @@ namespace FishMingle.Models
       }
       return users;
     }
+    //RETURNS LIST OF FISH USERS THAT CURRENT FISH MATCHES WITH
     public List<Fish> GetMatches()
     {
       MySqlConnection conn = DB.Connection();
