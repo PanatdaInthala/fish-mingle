@@ -144,29 +144,25 @@ namespace FishMingle.Tests
       //Assert
       Assert.AreEqual(updatedPassword, result);
     }
-// THIS METHOD SHOULD WORK IF WE ADD A SPECIES.SAVE() METHOD
-    
-    // [TestMethod]
-    // public void GetPreferredSpecies_ReturnsAllPreferredSpecies_SpeciesList()
-    // {
-    //   //Arrange
-    //   Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
-    //   testFish.Save();
-    //
-    //   Species testSpecies1 = new Species("Angler");
-    //   testSpecies1.Save();
-    //
-    //   Species testSpecies2 = new Species("Whale Shark");
-    //   testSpecies2.Save();
-    //
-    //   //Act
-    //   testFish.AddSpecies(testSpecies1);
-    //   List<Species> savedSpecies = testFish.GetSpecies();
-    //   List<Species> testList = new List<Species> {testSpecies1};
-    //
-    //   //Assert
-    //   CollectionAssert.AreEqual(testList, savedItems);
-    // }
+    [TestMethod]
+    public void Test_AddSpeciesPreference_AddsSpecies_SpeciesList()
+    {
+      //Arrange
+      Fish testFish = new Fish("Jim", 1, "Jim45", "Password1");
+      testFish.Save();
+
+      Species testSpecies1 = new Species("Tom");
+      testSpecies1.Save();
+
+      //Act
+      testFish.AddSpecies(testSpecies1);
+      List<Species> result = testFish.GetPreferredSpecies();
+      int testId = result[0].GetSpeciesId();
+      int testId2 = testSpecies1.GetSpeciesId();
+
+      //Assert
+      Assert.AreEqual(testId, testId2);
+    }
     [TestMethod]
     public void Test_AddPreference_AddsFishToPreferences()
     {
@@ -189,6 +185,33 @@ namespace FishMingle.Tests
 
       //Assert
       CollectionAssert.AreEqual(testList, result);
+    }
+    //GET ALL FISH THAT PREFER CURRENT FISH USER'S SPECIES
+    [TestMethod]
+    public void GetFishThatPreferMySpecies_ReturnsAllFishMatches_FishList()
+    {
+      //Arrange
+      Species newSpecies = new Species("Angler");
+      newSpecies.Save();
+      Species newSpecies2 = new Species("Shark");
+      newSpecies2.Save();
+      int id = newSpecies.GetSpeciesId();
+      int id2 = newSpecies2.GetSpeciesId();
+
+      Fish testFish = new Fish("Jim", id, "Jim45", "Password1");
+      testFish.Save();
+      Fish testFish2 = new Fish("Tom", id2, "Tom45", "Password1");
+      testFish2.Save();
+
+      testFish.AddSpecies(newSpecies2);
+      testFish2.AddSpecies(newSpecies);
+
+      //Act
+      List<Fish> testFishThatPreferMe = testFish.GetFishThatPreferMySpecies();
+      List<Fish> savedFish = new List<Fish> {testFish2};
+
+      //Assert
+      CollectionAssert.AreEqual(testFishThatPreferMe, savedFish);
     }
     [TestMethod]
     public void GetPreferences_ReturnsAllFishPreferences_FishList()
