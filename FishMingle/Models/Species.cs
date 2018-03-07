@@ -33,37 +33,61 @@ namespace FishMingle.Models
           _speciesName = speciesName;
       }
 
+      public static List<Species> GetAllSpecies()
+      {
+        List<Species> allSpecies = new List<Species>{};
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM species ORDER BY species_name ASC;";
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+          int speciesId = rdr.GetInt32(0);
+          string speciesName = rdr.GetString(1);
+
+          Species newSpecies = new Species(speciesName, speciesId);
+          allSpecies.Add(newSpecies);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return allSpecies;
+      }
+
       public static Species Find(int speciesId)
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM species WHERE speciesId = (@searchId);";
-
-      MySqlParameter speciesIdParameter = new MySqlParameter();
-      speciesIdParameter.ParameterName = "@searchId";
-      speciesIdParameter.Value = speciesId;
-      cmd.Parameters.Add(speciesId);
-
-      var rdr = cmd.ExecuteReader() as MySqlDataReader;
-
-      int foundId = 0;
-      string foundName = "";
-
-      while(rdr.Read())
       {
-        foundId = rdr.GetInt32(0);
-        foundName = rdr.GetString(1);
-      }
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
 
-      Species foundSpecies = new Species(foundName, foundId);
-      conn.Close();
-      if (conn != null)
-      {
-        conn.Dispose();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM species WHERE speciesId = (@searchId);";
+
+        MySqlParameter speciesIdParameter = new MySqlParameter();
+        speciesIdParameter.ParameterName = "@searchId";
+        speciesIdParameter.Value = speciesId;
+        cmd.Parameters.Add(speciesId);
+
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+        int foundId = 0;
+        string foundName = "";
+
+        while(rdr.Read())
+        {
+          foundId = rdr.GetInt32(0);
+          foundName = rdr.GetString(1);
+        }
+
+        Species foundSpecies = new Species(foundName, foundId);
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return foundSpecies;
       }
-      return foundSpecies;
-    }
   }
 }

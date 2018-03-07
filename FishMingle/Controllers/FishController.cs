@@ -26,7 +26,8 @@ namespace FishMingle.Controllers
     [HttpGet("/fish/create")]
     public ActionResult CreateFishForm()
     {
-      return View("NewFishForm");
+      List<Species> speciesList = Species.GetAllSpecies();
+      return View("NewFishForm", speciesList);
     }
 
     [HttpPost("/fish")]
