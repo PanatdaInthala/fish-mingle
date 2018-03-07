@@ -9,7 +9,7 @@ namespace FishMingle.Models
       private int _speciesId;
       private string _speciesName;
 
-      public Species(string speciesName, int speciesId)
+      public Species(string speciesName, int speciesId = 0)
       {
           _speciesName = speciesName;
           _speciesId = speciesId;
@@ -32,9 +32,30 @@ namespace FishMingle.Models
       {
           _speciesName = speciesName;
       }
-
+      public static List<Species> GetAll()
+      {
+        List<Species> allSpecies = new List<Species>{};
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT * FROM species;";
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+          int userId = rdr.GetInt32(0);
+          string name = rdr.GetString(1);
+          Species newSpecies = new Species(name, userId);
+          allSpecies.Add(newSpecies);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return allSpecies;
+      }
       public static Species Find(int speciesId)
-    {
+      {
       MySqlConnection conn = DB.Connection();
       conn.Open();
 
@@ -64,6 +85,6 @@ namespace FishMingle.Models
         conn.Dispose();
       }
       return foundSpecies;
-    }
+      }
   }
 }

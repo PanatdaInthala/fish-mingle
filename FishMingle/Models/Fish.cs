@@ -368,6 +368,7 @@ namespace FishMingle.Models
         conn.Dispose();
       }
     }
+    // GET SPECIES OF CURRENT FISH USER
     public string GetFishSpecies()
     {
       MySqlConnection conn = DB.Connection();
@@ -395,6 +396,7 @@ namespace FishMingle.Models
       }
       return speciesName;
     }
+    //GET SPECIES (PLURAL) THAT CURRENT FISH USER PREFERS
     public List<Species> GetPreferredSpecies()
     {
       MySqlConnection conn = DB.Connection();
@@ -424,6 +426,7 @@ namespace FishMingle.Models
       }
       return species;
     }
+    //ADDS A USER TO CURRENT FISH USER'S LIST OF PREFERRED FISH
     public void AddPreference(Fish newFish)
     {
       MySqlConnection conn = DB.Connection();
@@ -448,6 +451,7 @@ namespace FishMingle.Models
         conn.Dispose();
       }
     }
+    //GETS CURRENT FISH USER'S LIST OF PREFERRED FISH
     public List<Fish> GetPreferences()
     {
       MySqlConnection conn = DB.Connection();
@@ -480,6 +484,7 @@ namespace FishMingle.Models
       }
       return users;
     }
+    //RETURNS LIST OF FISH USERS THAT CURRENT FISH MATCHES WITH
     public List<Fish> GetMatches()
     {
       MySqlConnection conn = DB.Connection();
