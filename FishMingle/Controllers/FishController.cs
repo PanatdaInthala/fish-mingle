@@ -8,18 +8,24 @@ namespace FishMingle.Controllers
   public class FishController : Controller
   {
 
-    [HttpGet("/fish")]
-    public ActionResult FishIndex()
+    [HttpGet("/fish/browse")]
+    public ActionResult FishBrowse()
     {
       List<Fish> fishList = Fish.GetAll();
-      return View(fishList);
+      return View("FishIndex", fishList);
     }
 
-    [HttpGet("/fish/{id}")]
-    public ActionResult ViewProfile(int id)
+    [HttpGet("/fish/{sessionId}")]
+    public ActionResult ViewProfile(int sessionId)
     {
-      Fish newFish = Fish.Find(id);
-      return View(newFish);
+      Console.WriteLine("SESSION ID: " + sessionId);
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      List<Fish> fishList = Fish.GetAll();
+      profileData.Add("fishList", fishList);
+      Fish newFish = Fish.Find(sessionId);
+      profileData.Add("newFish", newFish);
+
+      return View(profileData);
     }
 
     //FORM FOR CREATING USER
@@ -30,7 +36,7 @@ namespace FishMingle.Controllers
       return View("NewFishForm", speciesList);
     }
 
-    [HttpPost("/fish")]
+    [HttpPost("/fish/create")]
     public ActionResult CreateFish()
     {
       string userNameActual = Request.Form["userName"];
@@ -43,42 +49,57 @@ namespace FishMingle.Controllers
       return View("UserConfirmation", newFish);
     }
 
-    [HttpGet("fish/{id}/update/password")]
-    public ActionResult UpdatePasswordForm()
+    [HttpGet("/fish/{sessionId}/update/password")]
+    public ActionResult UpdatePasswordForm(int sessionId)
     {
-      return View("UpdatePasswordForm");
+      Fish thisFish = Fish.Find(sessionId);
+      return View ("UpdatePassword", thisFish);
     }
 
-    [HttpPost("fish/{id}/update/password")]
-    public ActionResult UpdatePassword(int id)
+    [HttpPost("/fish/{sessionId}/update/password")]
+    public ActionResult UpdatePassword(int sessionId)
     {
-      Fish thisFish = Fish.Find(id);
+      Fish thisFish = Fish.Find(sessionId);
       thisFish.UpdatePassword(Request.Form["updatePassword"]);
       return View ("UpdatePasswordConfirmation");
     }
 
-    [HttpGet("fish/{id}/update/username")]
-    public ActionResult UpdateUsernameForm()
+    [HttpGet("/fish/{sessionId}/update/username")]
+    public ActionResult UpdateName(int sessionId)
     {
-      return View ("UpdateUserNameForm");
+      Fish thisFish = Fish.Find(sessionId);
+      return View ("UpdateName", thisFish);
     }
 
-    [HttpPost("fish/{id}/update/userName")]
-    public ActionResult UpdateUsername(int id)
+    [HttpPost("/fish/{sessionId}/update/username")]
+    public ActionResult UpdateUsername(int sessionId)
     {
-      Fish thisFish = Fish.Find(id);
+      Fish thisFish = Fish.Find(sessionId);
       thisFish.UpdateFish(Request.Form["UpdateUsername"]);
       return View ("UpdateUsernameConfirmation");
     }
 
     //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
 
-    [HttpGet("fish/{id}/matchmaking")]
+    [HttpGet("/fish/{sessionId}/matchmaking")]
     public ActionResult ViewMatchMaking(string name, int speciesId, string userName, string password)
     {
       var Fish = new Fish(name, speciesId, userName, password);
       List<Fish> userList = Fish.GetMatches();
       return View ();
+    }
+
+    [HttpGet("/fish/login")]
+    public ActionResult FishLoginForm()
+    {
+      return View ("Login");
+    }
+
+    [HttpPost("/fish/login")]
+    public ActionResult UserLogin()
+    {
+      int sessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
+      return RedirectToAction("ViewProfile", new {sessionId= sessionId});
     }
 
   }

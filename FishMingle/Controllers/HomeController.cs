@@ -14,5 +14,17 @@ namespace FishMingle.Controllers
     {
       return View();
     }
+
+    [HttpGet("/success/changes")]
+    public ActionResult SuccessChanges()
+    {
+      return View();
+    }
+
+    [HttpGet("/success/logout")]
+    public ActionResult SuccessLogout()
+    {
+      return View();
+    }
   }
 }

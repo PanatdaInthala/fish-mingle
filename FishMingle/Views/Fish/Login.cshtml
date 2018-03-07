@@ -1,3 +1,4 @@
+@using FishMingle.Models;
 @{
   Layout = "_Layout";
 }
@@ -13,7 +14,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/users">Create an account</a>
+        <a class="nav-link" href="/fish/create">Create an account</a>
       </li>
 
     </ul>
@@ -23,12 +24,15 @@
 </nav>
 <div class="container">
 <h1>Login Page</h1>
-
-
-
-
-
-
+  <form action="/fish/login" method="post">
+    <label for="userName">Enter your full name</label>
+    <input type="text" name="userName">
+    <hr>
+    <label for="userPassword">Create Password</label>
+    <input type="text" name="userPassword">
+    <hr>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
 <hr>
 <footer id="footer">FishMingle.com ©2018 </footer>
 </div>

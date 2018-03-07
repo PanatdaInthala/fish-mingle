@@ -1,3 +1,4 @@
+@using FishMingle.Models;
 @{
   Layout = "_Layout";
 }
@@ -13,7 +14,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/fish/@Model.GetId()">Profile</a>
+        <a class="nav-link" href="/fish/@Model["newFish"].GetId()">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/users/browse">Browse</a>
@@ -22,7 +23,7 @@
         <a class="nav-link" href="/user/matches">Matches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/fish/logout">Logout</a>
+        <a class="nav-link" href="/user/logout">Logout</a>
       </li>
     </ul>
     <span class="navbar-text">
@@ -30,12 +31,15 @@
   </div>
 </nav>
 <div class="container">
-<h1>Update your name</h1>
-
-
-
-
+@if(Model!=null)
+{
+<h1>@Model["newFish"].GetName()</h1>
+}
+      <button> <a href="/fish/@Model["newFish"].GetId()/update/password"
+      class="btn">update your password</a></button>
+      <button> <a href="/fish/@Model["newFish"].GetId()/update/username"
+       class="btn">update your personal information</a></button>
 
 <hr>
-<footer id="footer">FishMingle.com ©2018</footer>
+<footer id="footer">FishMingle.com ©2018 </footer>
 </div>

@@ -152,17 +152,21 @@ namespace FishMingle.Models
       return false;
     }
 
-    public static Fish Find(int id)
+    public static Fish Find(int sessionId)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+      // cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+      cmd.CommandText =
+      @"SELECT * FROM users
+         JOIN sessions ON (sessions.user_id) = (users.id)
+         WHERE sessions.session_id = @thisId;";
 
       MySqlParameter thisId = new MySqlParameter();
       thisId.ParameterName = "@thisId";
-      thisId.Value = id;
+      thisId.Value = sessionId;
       cmd.Parameters.Add(thisId);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
@@ -183,13 +187,11 @@ namespace FishMingle.Models
       }
 
       Fish foundFish= new Fish(name, speciesId, userName, password, userId);
-
       conn.Close();
       if (conn != null)
       {
         conn.Dispose();
       }
-
       return foundFish;
     }
 
@@ -265,15 +267,17 @@ namespace FishMingle.Models
       int id = 0;
       string databasePassword = "";
       int sessionId = 0;
+      string databaseUserName = "";
 
       while (rdr.Read())
       {
         id = rdr.GetInt32(0);
+        databaseUserName = rdr.GetString(3);
         databasePassword = rdr.GetString(4);
       }
 
       rdr.Dispose();
-      if (password == databasePassword)
+      if (password == databasePassword && userName == databaseUserName)
       {
         cmd.CommandText = @"INSERT INTO sessions (user_id, session_id) VALUES (@userId, @sessionId);";
 
