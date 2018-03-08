@@ -28,6 +28,7 @@
 @if(Model!=null)
 {
 <h1>Profile: @Model["newFish"].GetName()</h1>
+<h3>Species: @Model["newFish"].GetFishSpecies().GetSpeciesName()</h3>
 <h3>Bio: @Model["newFish"].GetBio()</h3>
 }
       <button> <a href="/fish/@Model["sessionId"]/update/password"

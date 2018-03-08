@@ -418,8 +418,7 @@ namespace FishMingle.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT species.* FROM users
-          WHERE users.species_id = @SpeciesId;";
+      cmd.CommandText = @"SELECT species.* FROM users JOIN users_species ON (users.id = users_species.user_id) JOIN species ON (users_species.species_id = species.species_id) WHERE users.species_id = @SpeciesId;";
 
       MySqlParameter stylistIdParameter = new MySqlParameter();
       stylistIdParameter.ParameterName = "@SpeciesId";
@@ -433,7 +432,7 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         id = rdr.GetInt32(0);
-        name = rdr.GetString(0);
+        name = rdr.GetString(1);
       }
       Species newSpecies = new Species(name, id);
       conn.Close();
