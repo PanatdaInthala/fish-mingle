@@ -53,6 +53,10 @@ namespace FishMingle.Controllers
       Fish newFish = new Fish( userNameProfile, speciesId, userNameActual, userPassword );
       newFish.Save();
       int newSessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
+      string fishBio = Request.Form["bio"];
+      newFish.AddBio(fishBio);
+
+
 
       string selectedSpecies = Request.Form["chosenSpecies"];
       if (selectedSpecies != null)
