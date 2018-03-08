@@ -15,7 +15,6 @@ namespace FishMingle.Controllers
       List<Fish> fishList = Fish.GetAll();
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
-      Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
 
@@ -29,7 +28,6 @@ namespace FishMingle.Controllers
       List<Fish> fishList = Fish.GetAll();
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
-      Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
       return View(profileData);
@@ -48,9 +46,10 @@ namespace FishMingle.Controllers
     {
       string userNameActual = Request.Form["userName"];
       int speciesId = Int32.Parse(Request.Form["speciesId"]);
-      string userNameProfile = Request.Form["userNameProfile"];
+      string firstName = Request.Form["firstName"];
+      string lastName = Request.Form["lastName"];
       string userPassword = Request.Form["userPassword"];
-      Fish newFish = new Fish( userNameProfile, speciesId, userNameActual, userPassword );
+      Fish newFish = new Fish( firstName, lastName,  speciesId, userNameActual, userPassword );
       newFish.Save();
       int newSessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
       string fishBio = Request.Form["bio"];
@@ -103,7 +102,7 @@ namespace FishMingle.Controllers
     public ActionResult UpdateUsername(int sessionId)
     {
       Fish thisFish = Fish.Find(sessionId);
-      thisFish.UpdateFish(Request.Form["updateName"]);
+      thisFish.UpdateFish(Request.Form["firstName"],Request.Form["lastName"]);
       return RedirectToAction ("SuccessChanges", "Home");
     }
 
@@ -116,7 +115,6 @@ namespace FishMingle.Controllers
       List<Fish> fishList = Fish.GetAll();
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
-      Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
 

@@ -7,16 +7,18 @@ namespace FishMingle.Models
   public class Fish
   {
     private int _id;
-    private string _name;
+    private string _firstName;
+    private string _lastName;
     private int _speciesId;
     private string _userName;
     private string _password;
     private string _bio;
 
-    public Fish(string name, int speciesId, string userName, string password, int id = 0)
+    public Fish(string firstName, string lastName, int speciesId, string userName, string password, int id = 0)
     {
       _id = id;
-      _name = name;
+      _firstName = firstName;
+      _lastName = lastName;
       _speciesId = speciesId;
       _userName = userName;
       _password = password;
@@ -32,14 +34,19 @@ namespace FishMingle.Models
       _id = id;
     }
 
-    public string GetName()
+    public string GetFirstName()
     {
-      return _name;
+      return _firstName;
     }
 
-    public void SetName(string name)
+    public string GetLastName()
     {
-      _name = name;
+      return _lastName;
+    }
+
+    public void SetFirstName(string firstName)
+    {
+      _firstName = firstName;
     }
 
     public int GetSpeciesId()
@@ -93,12 +100,13 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         int userId = rdr.GetInt32(0);
-        string name = rdr.GetString(1);
-        int speciesId = rdr.GetInt32(2);
-        string userName = rdr.GetString(3);
-        string password = rdr.GetString(4);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        int speciesId = rdr.GetInt32(3);
+        string userName = rdr.GetString(4);
+        string password = rdr.GetString(5);
 
-        Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
         allFishs.Add(newFish);
       }
       conn.Close();
@@ -124,7 +132,7 @@ namespace FishMingle.Models
 
       while(rdr.Read())
       {
-        tempFishName = rdr.GetString(3);
+        tempFishName = rdr.GetString(4);
       }
 
       conn.Close();
@@ -138,14 +146,16 @@ namespace FishMingle.Models
         conn = DB.Connection();
         conn.Open();
         cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"INSERT INTO users (name, species_id, user_name, password) VALUES (@name, @speciesId, @userName, @userPassword);";
+        cmd.CommandText = @"INSERT INTO users (first_name, last_name, species_id, user_name, password) VALUES (@firstName, @lastName, @speciesId, @userName, @userPassword);";
 
-        MySqlParameter name = new MySqlParameter("@name", _name);
+        MySqlParameter firstName = new MySqlParameter("@firstName", _firstName);
+        MySqlParameter lastName = new MySqlParameter("@lastName", _lastName);
         MySqlParameter speciesId = new MySqlParameter("@speciesId", _speciesId);
         MySqlParameter userName = new MySqlParameter("@userName", _userName);
         MySqlParameter password = new MySqlParameter("@userPassword", _password);
 
-        cmd.Parameters.Add(name);
+        cmd.Parameters.Add(firstName);
+        cmd.Parameters.Add(lastName);
         cmd.Parameters.Add(speciesId);
         cmd.Parameters.Add(userName);
         cmd.Parameters.Add(password);
@@ -192,7 +202,7 @@ namespace FishMingle.Models
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      // cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+
       cmd.CommandText =
       @"SELECT * FROM users
          JOIN sessions ON (sessions.user_id) = (users.id)
@@ -206,7 +216,8 @@ namespace FishMingle.Models
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
       int userId = 0;
-      string name = "";
+      string firstName = "";
+      string lastName = "";
       int speciesId = 0;
       string userName = "";
       string password = "";
@@ -215,14 +226,15 @@ namespace FishMingle.Models
       while (rdr.Read())
       {
         userId = rdr.GetInt32(0);
-        name = rdr.GetString(1);
-        speciesId = rdr.GetInt32(2);
-        userName = rdr.GetString(3);
-        password = rdr.GetString(4);
-        bio = rdr.GetString(5);
+        firstName = rdr.GetString(1);
+        lastName = rdr.GetString(2);
+        speciesId = rdr.GetInt32(3);
+        userName = rdr.GetString(4);
+        password = rdr.GetString(5);
+        bio = rdr.GetString(6);
       }
 
-      Fish foundFish= new Fish(name, speciesId, userName, password, userId);
+      Fish foundFish= new Fish(firstName, lastName, speciesId, userName, password, userId);
       foundFish.SetBio(bio);
       conn.Close();
       if (conn != null)
@@ -309,8 +321,8 @@ namespace FishMingle.Models
       while (rdr.Read())
       {
         id = rdr.GetInt32(0);
-        databaseUserName = rdr.GetString(3);
-        databasePassword = rdr.GetString(4);
+        databaseUserName = rdr.GetString(4);
+        databasePassword = rdr.GetString(5);
       }
 
       rdr.Dispose();
@@ -360,25 +372,32 @@ namespace FishMingle.Models
 
       conn.Dispose();
     }
-    public void UpdateFish(string newFishName)
+    public void UpdateFish(string newFirstName, string newLastName)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"UPDATE users SET name = @NewFishName WHERE id = @searchId;";
+      cmd.CommandText = @"UPDATE users SET first_name = @NewFirstName, last_name= @NewLastName WHERE id = @searchId;";
 
       MySqlParameter searchId = new MySqlParameter();
       searchId.ParameterName = "@searchId";
       searchId.Value = _id;
       cmd.Parameters.Add(searchId);
 
-      MySqlParameter userName = new MySqlParameter();
-      userName.ParameterName = "@newFishName";
-      userName.Value = newFishName;
-      cmd.Parameters.Add(userName);
+      MySqlParameter firstName = new MySqlParameter();
+      firstName.ParameterName = "@NewFirstName";
+      firstName.Value = newFirstName;
+      cmd.Parameters.Add(firstName);
+
+      MySqlParameter lastName = new MySqlParameter();
+      lastName.ParameterName = "@NewLastName";
+      lastName.Value = newLastName;
+      cmd.Parameters.Add(lastName);
+
 
       cmd.ExecuteNonQuery();
-      _userName = newFishName;
+      _firstName = newFirstName;
+      _lastName = newLastName;
 
       conn.Close();
       if (conn != null)
@@ -541,11 +560,12 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         int userId = rdr.GetInt32(0);
-        string name = rdr.GetString(1);
-        int speciesId = rdr.GetInt32(2);
-        string userName = rdr.GetString(3);
-        string password = rdr.GetString(4);
-        Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        int speciesId = rdr.GetInt32(3);
+        string userName = rdr.GetString(4);
+        string password = rdr.GetString(5);
+        Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
         users.Add(newFish);
       }
       conn.Close();
@@ -574,11 +594,12 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         int userId = rdr.GetInt32(0);
-        string name = rdr.GetString(1);
-        int speciesId = rdr.GetInt32(2);
-        string userName = rdr.GetString(3);
-        string password = rdr.GetString(4);
-        Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        int speciesId = rdr.GetInt32(3);
+        string userName = rdr.GetString(4);
+        string password = rdr.GetString(5);
+        Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
         users.Add(newFish);
       }
       conn.Close();
@@ -607,11 +628,12 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         int userId = rdr.GetInt32(0);
-        string name = rdr.GetString(1);
-        int speciesId = rdr.GetInt32(2);
-        string userName = rdr.GetString(3);
-        string password = rdr.GetString(4);
-        Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        string firstName = rdr.GetString(1);
+        string lastName = rdr.GetString(2);
+        int speciesId = rdr.GetInt32(3);
+        string userName = rdr.GetString(4);
+        string password = rdr.GetString(5);
+        Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
         users.Add(newFish);
       }
       conn.Close();

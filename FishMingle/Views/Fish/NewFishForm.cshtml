@@ -32,11 +32,14 @@
       <input type="password" pattern="[A-Za-z0-9]{8,20}" name="userPassword">
       <p>Your password must include at least 8 characters with no symbols.</p>
       <hr>
-      <label for="userNameProfile">Enter your full name:</label>
-      <input type="text" name="userNameProfile" pattern="[A-Za-z]{3,20}">
+      <label for="firstName">Enter your first name:</label>
+      <input type="text" name="firstName" pattern="[A-Za-z]{2,20}">
+      <hr>
+      <label for="lastName">Enter your last Name:</label>
+      <input type="text" name="lastName" pattern="[A-Za-z]{2,20}">
       <hr>
       <label for="bio">Add a bio!</label><br>
-      <textarea rows="3" name="bio" pattern="[A-Za-z0-9]{3,500}"></textarea>
+      <textarea rows="3" name="bio" pattern="[A-Za-z0-9]{2,500}"></textarea>
       <hr>
       <h4>Choose Your Species!</h4>
       <select class="speciesId" name="speciesId">

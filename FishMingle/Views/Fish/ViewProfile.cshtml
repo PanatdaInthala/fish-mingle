@@ -27,7 +27,7 @@
 <div class="container">
 @if(Model!=null)
 {
-<h1 id="profile">Profile: @Model["newFish"].GetName()</h1>
+<h1 id="profile">Profile: @Model["newFish"].GetFirstName()</h1>
 <h3>Species: @Model["newFish"].GetFishSpecies().GetSpeciesName()</h3>
 <h3>Bio: @Model["newFish"].GetBio()</h3>
 }
@@ -35,7 +35,7 @@
       <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/password"
       class="btn">update your password</a></button>
       <button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/username"
-       class="btn">update your personal information</a></button></center>
+       class="btn">update your name</a></button></center>
 <br>
 <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/confirmation/delete" id="delete">Delete My Account</a> </button></center>
 <hr>
