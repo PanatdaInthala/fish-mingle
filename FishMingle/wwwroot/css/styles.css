@@ -48,3 +48,7 @@ font-family: lobster two;
   width: auto;
   text-align: center;
 }
+label {
+    display: inline-block;
+    margin-top: 10px;
+}
