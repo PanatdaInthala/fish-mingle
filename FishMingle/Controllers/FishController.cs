@@ -50,18 +50,21 @@ namespace FishMingle.Controllers
     }
 
     [HttpGet("/fish/{sessionId}/update/password")]
-    public ActionResult UpdatePasswordForm(int sessionId)
+    public ActionResult UpdatePassword(int sessionId)
     {
-      Fish thisFish = Fish.Find(sessionId);
-      return View ("UpdatePassword", thisFish);
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      Fish newFish = Fish.Find(sessionId);
+      profileData.Add("sessionId", sessionId);
+      profileData.Add("newFish", newFish);
+      return View (profileData);
     }
 
     [HttpPost("/fish/{sessionId}/update/password")]
-    public ActionResult UpdatePassword(int sessionId)
+    public ActionResult UpdateUserPassword(int sessionId)
     {
       Fish thisFish = Fish.Find(sessionId);
       thisFish.UpdatePassword(Request.Form["updatePassword"]);
-      return View ("UpdatePasswordConfirmation");
+      return RedirectToAction ("SuccessChanges", "Home");;
     }
 
     [HttpGet("/fish/{sessionId}/update/username")]
@@ -79,8 +82,8 @@ namespace FishMingle.Controllers
     public ActionResult UpdateUsername(int sessionId)
     {
       Fish thisFish = Fish.Find(sessionId);
-      thisFish.UpdateFish(Request.Form["UpdateUsername"]);
-      return View ("UpdateUsernameConfirmation");
+      thisFish.UpdateFish(Request.Form["updateName"]);
+      return RedirectToAction ("SuccessChanges", "Home");
     }
 
     //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
@@ -111,9 +114,26 @@ namespace FishMingle.Controllers
     {
       Fish newFish = Fish.Find(sessionId);
       int newId = newFish.GetId();
-      Console.WriteLine(newId);
       newFish.Logout(newId);
       return RedirectToAction("SuccessLogout", "Home");
+    }
+    [HttpGet("/fish/confirmation/delete")]
+    public ActionResult DeleteAccount(int sessionId)
+    {
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      Fish newFish = Fish.Find(sessionId);
+      profileData.Add("sessionId", sessionId);
+      profileData.Add("newFish", newFish);
+
+      return View(profileData);
+    }
+    [HttpGet("/fish/{sessionId}/delete")]
+    public ActionResult DeleteAccountConfirm(int sessionId)
+    {
+      Fish newFish = Fish.Find(sessionId);
+      int newId = newFish.GetId();
+      newFish.Delete(newId);
+      return RedirectToAction("Index", "Home");
     }
   }
 }

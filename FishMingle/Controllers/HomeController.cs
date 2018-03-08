@@ -16,9 +16,13 @@ namespace FishMingle.Controllers
     }
 
     [HttpGet("/success/changes")]
-    public ActionResult SuccessChanges()
+    public ActionResult SuccessChanges(int sessionId)
     {
-      return View();
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      Fish newFish = Fish.Find(sessionId);
+      profileData.Add("sessionId", sessionId);
+      profileData.Add("newFish", newFish);
+      return View(profileData);
     }
 
     [HttpGet("/fish/logout")]
