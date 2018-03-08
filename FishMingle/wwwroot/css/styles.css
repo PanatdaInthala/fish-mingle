@@ -2,7 +2,6 @@ body{
   background-color: #1c4c5275;
   font-family: Arial,sans-serif;
 }
-
 .fishlovers{
   width: auto;
   height: 100px;
@@ -10,7 +9,6 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
 #start {
   background-color: #fba1ad;
   border-color: white;
@@ -18,31 +16,22 @@ body{
   color: white;
   margin-top: 10px;
 }
-
 #errorText {
   color: red;
 }
-
 #start-row {
-
   padding-top: 100px;
 }
-
 #header {
-
 padding-top: 50px;
 font-family: lobster two;
 }
-
-
 #start-row{
   font-family: lobster two;
 }
-
 #footer{
     text-align: center;
 }
-
 #social_media{
   height: 75px;
   width: auto;
@@ -51,4 +40,22 @@ font-family: lobster two;
 label {
     display: inline-block;
     margin-top: 10px;
+}
+#pike{
+  padding-top: 15px;
+}
+#browse
+{
+  font-family: lobster two;
+  text-align: center;
+}
+#profile{
+  font-family: lobster two;
+  text-align: center;
+}
+#logout{
+  font-family: lobster two;
+}
+#login{
+  font-family: lobster two;
 }
