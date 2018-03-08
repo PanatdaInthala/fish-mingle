@@ -28,8 +28,18 @@
 @if(Model!=null)
 {
 <h1 id="profile">Profile: @Model["newFish"].GetName()</h1>
-<h3>Species: @Model["newFish"].GetFishSpecies().GetSpeciesName()</h3>
-<h3>Bio: @Model["newFish"].GetBio()</h3>
+<h3>Species:</h3>
+  <h4>@Model["newFish"].GetFishSpecies().GetSpeciesName()</h4>
+<h3>Preferred species: </h3>
+  @foreach (var species in Model["speciesList"])
+  {
+    <li>@species.GetSpeciesName()</li>
+  }
+  <br>
+<h3>Bio:</h3>
+<h4>@Model["newFish"].GetBio()</h4>
+
+
 }
 <br>
       <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/password"
