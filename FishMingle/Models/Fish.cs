@@ -97,8 +97,10 @@ namespace FishMingle.Models
         int speciesId = rdr.GetInt32(2);
         string userName = rdr.GetString(3);
         string password = rdr.GetString(4);
+        string bio = rdr.GetString(5);
 
         Fish newFish = new Fish(name, speciesId, userName, password, userId);
+        newFish.SetBio(bio);
         allFishs.Add(newFish);
       }
       conn.Close();

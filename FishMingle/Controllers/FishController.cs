@@ -13,9 +13,9 @@ namespace FishMingle.Controllers
     {
       Dictionary<string, object> profileData = new Dictionary<string, object>();
       List<Fish> fishList = Fish.GetAll();
+      Console.WriteLine("fish bio " + Fish.GetAll()[0].GetBio());
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
-      Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
 
