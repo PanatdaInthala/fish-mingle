@@ -72,12 +72,12 @@ namespace FishMingle.Models
       _password = password;
     }
 
-    public string GetFishBio()
+    public string GetBio()
     {
       return _bio;
     }
 
-    public void SetFishBio(string bio)
+    public void SetBio(string bio)
     {
       _bio = bio;
     }
@@ -162,7 +162,30 @@ namespace FishMingle.Models
       }
       return false;
     }
+    public void AddBio(string newBio)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE users SET bio = @FishBio WHERE id = @SearchId;";
 
+      MySqlParameter bioParameter = new MySqlParameter();
+      bioParameter.ParameterName = "@FishBio";
+      bioParameter.Value = newBio;
+      cmd.Parameters.Add(bioParameter);
+
+      MySqlParameter idParameter = new MySqlParameter();
+      idParameter.ParameterName = "@SearchId";
+      idParameter.Value = _id;
+      cmd.Parameters.Add(idParameter);
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
     public static Fish Find(int sessionId)
     {
       MySqlConnection conn = DB.Connection();
@@ -187,6 +210,7 @@ namespace FishMingle.Models
       int speciesId = 0;
       string userName = "";
       string password = "";
+      string bio = "";
 
       while (rdr.Read())
       {
@@ -195,9 +219,11 @@ namespace FishMingle.Models
         speciesId = rdr.GetInt32(2);
         userName = rdr.GetString(3);
         password = rdr.GetString(4);
+        bio = rdr.GetString(5);
       }
 
       Fish foundFish= new Fish(name, speciesId, userName, password, userId);
+      foundFish.SetBio(bio);
       conn.Close();
       if (conn != null)
       {
@@ -392,8 +418,7 @@ namespace FishMingle.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT species.* FROM users
-          WHERE users.species_id = @SpeciesId;";
+      cmd.CommandText = @"SELECT species.* FROM users JOIN users_species ON (users.id = users_species.user_id) JOIN species ON (users_species.species_id = species.species_id) WHERE users.species_id = @SpeciesId;";
 
       MySqlParameter stylistIdParameter = new MySqlParameter();
       stylistIdParameter.ParameterName = "@SpeciesId";
@@ -407,7 +432,7 @@ namespace FishMingle.Models
       while(rdr.Read())
       {
         id = rdr.GetInt32(0);
-        name = rdr.GetString(0);
+        name = rdr.GetString(1);
       }
       Species newSpecies = new Species(name, id);
       conn.Close();
