@@ -22,22 +22,21 @@
   </div>
 </nav>
   <div class="container">
-  <h1>Create Your Very Own Fish!</h1>
-  <h4>Add a stylist to the site!</h4>
+  <center><h1>Create Your Very Own Fish!</h1></center>
+
     <form action="/fish/create" method="post">
-      <label for="userName">Enter your Username:</label>
-      <input type="text" name="userName" pattern="[A-Za-z0-9]{3,20}">
-      <hr>
-      <label for="userPassword">Create Password</label>
+      <label for="userName">Enter your Username:</label><br>
+      <input type="text" name="userName" pattern="[A-Za-z0-9]{3,20}"><br>
+      <label for="userPassword">Create Password</label><br>
       <input type="password" pattern="[A-Za-z0-9]{8,20}" name="userPassword">
       <p>Your password must include at least 8 characters with no symbols.</p>
-      <hr>
-      <label for="userNameProfile">Enter your full name:</label>
-      <input type="text" name="userNameProfile" pattern="[A-Za-z]{3,20}">
-      <hr>
+      <label for="userNameProfile">Enter your full name:</label><br>
+      <input type="text" name="userNameProfile" pattern="[A-Za-z]{3,20}"><br>
+
       <label for="bio">Add a bio!</label><br>
       <textarea rows="3" name="bio" pattern="[A-Za-z0-9]{3,500}"></textarea>
-      <hr>
+      <br>
+      <br>
       <h4>Choose Your Species!</h4>
       <select class="speciesId" name="speciesId">
       @if(Model!=null)
