@@ -51,11 +51,12 @@ namespace FishMingle.Controllers
       int speciesId = Int32.Parse(Request.Form["speciesId"]);
       string userNameProfile = Request.Form["userNameProfile"];
       string userPassword = Request.Form["userPassword"];
-
+      List<Fish> fishList = Fish.GetAll();
       Fish newFish = new Fish( userNameProfile, speciesId, userNameActual, userPassword );
       newFish.Save();
       int newSessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
       Console.WriteLine("Session ID at Create:" + newSessionId);
+
       return RedirectToAction("ViewProfile", new { sessionId = newSessionId});
     }
 
