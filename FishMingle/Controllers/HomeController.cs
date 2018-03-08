@@ -21,7 +21,7 @@ namespace FishMingle.Controllers
       return View();
     }
 
-    [HttpGet("/success/logout")]
+    [HttpGet("/fish/logout")]
     public ActionResult SuccessLogout()
     {
       return View();

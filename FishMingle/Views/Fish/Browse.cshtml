@@ -1,3 +1,4 @@
+@using FishMingle.Models;
 @{
   Layout = "_Layout";
 }
@@ -13,7 +14,7 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/users">Profile</a>
+        <a class ="nav-link" href="/fish/@Model.GetId()">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/users/browse">Browse</a>
@@ -22,7 +23,7 @@
         <a class="nav-link" href="/user/matches">Matches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/user/logout">Logout</a>
+      <a class="nav-link"  href="/fish/@Model["sessionId"]/logout">Logout</a>
       </li>
     </ul>
     <span class="navbar-text">

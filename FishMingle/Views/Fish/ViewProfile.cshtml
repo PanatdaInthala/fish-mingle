@@ -14,16 +14,13 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/fish/@Model["newFish"].GetId()">Profile</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="/users/browse">Browse</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/user/matches">Matches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/user/logout">Logout</a>
+        <a class="nav-link"  href="/fish/@Model["sessionId"]/logout">Logout</a>
       </li>
     </ul>
     <span class="navbar-text">
@@ -35,9 +32,9 @@
 {
 <h1>@Model["newFish"].GetName()</h1>
 }
-      <button> <a href="/fish/@Model["newFish"].GetId()/update/password"
+      <button> <a href="/fish/@Model["sessionId"]/update/password"
       class="btn">update your password</a></button>
-      <button> <a href="/fish/@Model["newFish"].GetId()/update/username"
+      <button> <a href="/fish/@Model["sessionId"]/update/username"
        class="btn">update your personal information</a></button>
 
 <hr>

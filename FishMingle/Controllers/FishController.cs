@@ -18,12 +18,12 @@ namespace FishMingle.Controllers
     [HttpGet("/fish/{sessionId}")]
     public ActionResult ViewProfile(int sessionId)
     {
-      Console.WriteLine("SESSION ID: " + sessionId);
       Dictionary<string, object> profileData = new Dictionary<string, object>();
       List<Fish> fishList = Fish.GetAll();
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
       profileData.Add("newFish", newFish);
+      profileData.Add("sessionId", sessionId);
 
       return View(profileData);
     }
@@ -67,8 +67,12 @@ namespace FishMingle.Controllers
     [HttpGet("/fish/{sessionId}/update/username")]
     public ActionResult UpdateName(int sessionId)
     {
-      Fish thisFish = Fish.Find(sessionId);
-      return View ("UpdateName", thisFish);
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      Fish newFish = Fish.Find(sessionId);
+      profileData.Add("sessionId", sessionId);
+      profileData.Add("newFish", newFish);
+
+      return View (profileData);
     }
 
     [HttpPost("/fish/{sessionId}/update/username")]
@@ -102,5 +106,14 @@ namespace FishMingle.Controllers
       return RedirectToAction("ViewProfile", new {sessionId= sessionId});
     }
 
+    [HttpGet("/fish/{sessionId}/logout")]
+    public ActionResult UserLogout(int sessionId)
+    {
+      Fish newFish = Fish.Find(sessionId);
+      int newId = newFish.GetId();
+      Console.WriteLine(newId);
+      newFish.Logout(newId);
+      return RedirectToAction("SuccessLogout", "Home");
+    }
   }
 }

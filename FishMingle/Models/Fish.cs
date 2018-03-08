@@ -306,15 +306,15 @@ namespace FishMingle.Models
       return sessionId;
     }
 
-    public static void Logout(int sessionId)
+    public void Logout(int userId)
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"DELETE FROM sessions WHERE session_id = @sessionId;";
+      cmd.CommandText = @"DELETE FROM sessions WHERE sessions.user_id = @userId;";
 
-      MySqlParameter thisSessionId = new MySqlParameter("@sessionId", sessionId);
-      cmd.Parameters.Add(thisSessionId);
+      MySqlParameter thisUserId = new MySqlParameter("@userId", userId);
+      cmd.Parameters.Add(thisUserId);
 
       cmd.ExecuteNonQuery();
 
