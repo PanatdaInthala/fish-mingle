@@ -27,13 +27,15 @@
 <div class="container">
 @if(Model!=null)
 {
-<h1>Profile: @Model["newFish"].GetName()</h1>
+<h1 id="profile">Profile: @Model["newFish"].GetName()</h1>
 }
-      <button> <a href="/fish/@Model["sessionId"]/update/password"
+<br>
+      <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/password"
       class="btn">update your password</a></button>
-      <button> <a href="/fish/@Model["sessionId"]/update/username"
-       class="btn">update your personal information</a></button>
-<a href="/fish/@Model["sessionId"]/confirmation/delete">Delete My Account</a>
+      <button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/username"
+       class="btn">update your personal information</a></button></center>
+<br>
+<center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/confirmation/delete" id="delete">Delete My Account</a> </button></center>
 <hr>
-<footer id="footer">FishMingle.com ©2018 </footer>
+<footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
 </div>
