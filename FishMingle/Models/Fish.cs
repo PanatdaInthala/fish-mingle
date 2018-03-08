@@ -296,7 +296,10 @@ namespace FishMingle.Models
         cmd.ExecuteNonQuery();
         sessionId = randomNumber;
       }
-
+      else
+      {
+        
+      }
       conn.Close();
       if (!(conn == null))
       {

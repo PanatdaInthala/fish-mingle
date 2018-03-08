@@ -15,7 +15,7 @@ namespace FishMingle.Controllers
       return View();
     }
 
-    [HttpGet("/success/changes")]
+    [HttpGet("/success/{sessionId}/changes")]
     public ActionResult SuccessChanges(int sessionId)
     {
       Dictionary<string, object> profileData = new Dictionary<string, object>();

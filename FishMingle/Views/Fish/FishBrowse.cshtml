@@ -11,16 +11,13 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-         <a class ="nav-link" href="/fish/@Model["sessionId"]">Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/fish/@Model["sessionId"]/browse">Browse</a>
+        <a class ="nav-link" href="/fish/@Model["sessionId"]">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/fish/@Model["sessionId"]/match">Matches</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link"  href="/fish/@Model["sessionId"]/logout">Logout</a>
+      <a class="nav-link"  href="/fish/@Model["sessionId"]/logout">Logout</a>
       </li>
     </ul>
     <span class="navbar-text">
@@ -28,21 +25,13 @@
   </div>
 </nav>
 <div class="container">
-<h1>Update your name</h1>
+<h1>Browse</h1>
 
 
-  <h1>Update: @Model["newFish"].GetName()</h1>
-  <h5 class="text-muted"><em>Be sure you select "update" to save your changes</em></h5>
-  <hr />
-  <form action="/fish/@Model["sessionId"]/update/username" method="post">
-    <label for="name">Update:</label>
-    <input type="text" name="updateName" value="@Model["newFish"].GetName()">
 
-    <button type="submit" class="btn-info">Update</button>
-  </form>
 
 
 
 <hr>
-<footer id="footer">FishMingle.com ©2018</footer>
+<footer id="footer">FishMingle.com ©2018 </footer>
 </div>

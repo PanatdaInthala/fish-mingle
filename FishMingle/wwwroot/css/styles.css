@@ -19,6 +19,10 @@ body{
   margin-top: 10px;
 }
 
+#errorText {
+  color: red;
+}
+
 #start-row {
 
   padding-top: 100px;

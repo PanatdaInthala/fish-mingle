@@ -14,30 +14,26 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class ="nav-link" href="/fish/@Model["sessionId"]">Profile</a>
+        <a class="nav-link" href="/fish/create">Create an account</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/users/browse">Browse</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user/matches">Matches</a>
-      </li>
-      <li class="nav-item">
-      <a class="nav-link"  href="/fish/@Model["sessionId"]/logout">Logout</a>
-      </li>
+
     </ul>
     <span class="navbar-text">
     </span>
   </div>
 </nav>
 <div class="container">
-<h1>Browse</h1>
-
-
-
-
-
-
+<h1>Login Page</h1>
+  <h3 id="errorText">Incorrect Username or Password. Please try again!</h3>
+  <form action="/fish/login" method="post">
+    <label for="userName">Enter your username</label>
+    <input type="text" name="userName">
+    <hr>
+    <label for="userPassword">Create Password</label>
+    <input type="text" name="userPassword">
+    <hr>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
 <hr>
 <footer id="footer">FishMingle.com ©2018 </footer>
 </div>

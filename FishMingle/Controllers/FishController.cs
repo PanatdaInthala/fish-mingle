@@ -8,11 +8,18 @@ namespace FishMingle.Controllers
   public class FishController : Controller
   {
 
-    [HttpGet("/fish/browse")]
-    public ActionResult FishBrowse()
+    [HttpGet("/fish/{sessionId}/browse")]
+    public ActionResult FishBrowse(int sessionId)
     {
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
       List<Fish> fishList = Fish.GetAll();
-      return View("FishIndex", fishList);
+      profileData.Add("fishList", fishList);
+      Fish newFish = Fish.Find(sessionId);
+      Console.WriteLine("Name: " + newFish.GetName());
+      profileData.Add("newFish", newFish);
+      profileData.Add("sessionId", sessionId);
+
+      return View(profileData);
     }
 
     [HttpGet("/fish/{sessionId}")]
@@ -91,12 +98,18 @@ namespace FishMingle.Controllers
 
     //CONTROLLER ROUTES FOR VIEWING MATCHES AND WHEN ANOTHER USER LIKES A USER BUT ISN'T MATCHED
 
-    [HttpGet("/fish/{sessionId}/matchmaking")]
-    public ActionResult ViewMatchMaking(string name, int speciesId, string userName, string password)
+    [HttpGet("/fish/{sessionId}/match")]
+    public ActionResult Match(int sessionId)
     {
-      var Fish = new Fish(name, speciesId, userName, password);
-      List<Fish> userList = Fish.GetMatches();
-      return View ();
+      Dictionary<string, object> profileData = new Dictionary<string, object>();
+      List<Fish> fishList = Fish.GetAll();
+      profileData.Add("fishList", fishList);
+      Fish newFish = Fish.Find(sessionId);
+      Console.WriteLine("Name: " + newFish.GetName());
+      profileData.Add("newFish", newFish);
+      profileData.Add("sessionId", sessionId);
+
+      return View(profileData);
     }
 
     [HttpGet("/fish/login")]
@@ -105,12 +118,36 @@ namespace FishMingle.Controllers
       return View ("Login");
     }
 
+    [HttpGet("/fish/login/error/{sessionId}")]
+    public ActionResult LoginError()
+    {
+      return View ("LoginError");
+    }
+
+    [HttpPost("/fish/login/error/{sessionId}")]
+    public ActionResult UserLoginError()
+    {
+      int sessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
+
+      if(sessionId == 0){
+
+        return RedirectToAction("LoginError");
+      }
+      return RedirectToAction("ViewProfile", new {sessionId= sessionId});
+    }
+
     [HttpPost("/fish/login")]
     public ActionResult UserLogin()
     {
       int sessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
-      return RedirectToAction("ViewProfile", new {sessionId= sessionId});
+
+      if(sessionId != 0)
+      {
+        return RedirectToAction("ViewProfile", new {sessionId= sessionId});
+      }
+      return RedirectToAction("LoginError", new {sessionId = sessionId});
     }
+
 
     [HttpGet("/fish/{sessionId}/logout")]
     public ActionResult UserLogout(int sessionId)
