@@ -33,7 +33,7 @@
     <div class="card" style="width: 18rem;">
       <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
       <div class="card-body">
-        <h5 class="card-title"><center>@fish.GetName()</center></h5>
+        <h5 class="card-title"><center>@fish.GetFirstName()</center></h5>
         <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
         <p>I prefer the following species:</p>
         @foreach (var species in @fish.GetPreferredSpecies())
