@@ -25,7 +25,6 @@ namespace FishMingle.Controllers
       Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
-
       return View(profileData);
     }
 
@@ -44,11 +43,21 @@ namespace FishMingle.Controllers
       int speciesId = Int32.Parse(Request.Form["speciesId"]);
       string userNameProfile = Request.Form["userNameProfile"];
       string userPassword = Request.Form["userPassword"];
-
       Fish newFish = new Fish( userNameProfile, speciesId, userNameActual, userPassword );
       newFish.Save();
       int newSessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
-      Console.WriteLine("Session ID at Create:" + newSessionId);
+
+      string selectedSpecies = Request.Form["chosenSpecies"];
+      if (selectedSpecies != null)
+      {
+        String[] speciesIds = selectedSpecies.Split(',');
+        foreach(var species in speciesIds)
+        {
+          int speciesIdInt = int.Parse(species);
+          Species newSpecies = Species.Find(speciesIdInt);
+          newFish.AddSpecies(newSpecies);
+        }
+      }
       return RedirectToAction("ViewProfile", new { sessionId = newSessionId});
     }
 

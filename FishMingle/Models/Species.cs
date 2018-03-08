@@ -82,12 +82,12 @@ namespace FishMingle.Models
       conn.Open();
 
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM species WHERE speciesId = (@searchId);";
+      cmd.CommandText = @"SELECT * FROM species WHERE species_id = (@searchId);";
 
       MySqlParameter speciesIdParameter = new MySqlParameter();
       speciesIdParameter.ParameterName = "@searchId";
       speciesIdParameter.Value = speciesId;
-      cmd.Parameters.Add(speciesId);
+      cmd.Parameters.Add(speciesIdParameter);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
