@@ -99,14 +99,15 @@ namespace FishMingle.Models
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        int userId = rdr.GetInt32(0);
         string firstName = rdr.GetString(1);
         string lastName = rdr.GetString(2);
         int speciesId = rdr.GetInt32(3);
         string userName = rdr.GetString(4);
         string password = rdr.GetString(5);
+        string bio = rdr.GetString(6);
 
         Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
+        newFish.SetBio(bio);
         allFishs.Add(newFish);
       }
       conn.Close();
@@ -627,13 +628,14 @@ namespace FishMingle.Models
 
       while(rdr.Read())
       {
-        int userId = rdr.GetInt32(0);
         string firstName = rdr.GetString(1);
         string lastName = rdr.GetString(2);
         int speciesId = rdr.GetInt32(3);
         string userName = rdr.GetString(4);
         string password = rdr.GetString(5);
+        string bio = rdr.GetString(6);
         Fish newFish = new Fish(firstName, lastName, speciesId, userName, password, userId);
+        newFish.SetBio(bio);
         users.Add(newFish);
       }
       conn.Close();

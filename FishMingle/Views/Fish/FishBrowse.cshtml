@@ -28,7 +28,41 @@
   <h1 id="browse">Browse</h1>
   <br>
   <br>
-  <div class="row">
+  @foreach (var fish in @Model["fishList"])
+  {
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+      <div class="card-body">
+        <h5 class="card-title"><center>@fish.GetName()</center></h5>
+        <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
+        <p>I prefer the following species:</p>
+        @foreach (var species in @fish.GetPreferredSpecies())
+        {
+          <li>@species.GetSpeciesName()</li>
+        }
+        <h6><center>Bio</center></h6>
+        <p class="card-text">@fish.GetBio()</p>
+
+        </div>
+      </div>
+  }
+
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+          <div class="card-body">
+            <h5 class="card-title"><center>Gaston Goldfish</center></h5>
+            <h6><center>Bio</center></h6>
+            <p class="card-text">I'm a loving kind of chap, who likes nothing more than going on lazy swims among the sea grass with the right fish.
+
+              The first thing fish usually notice about me is my optimistic personality, closly followed by my dazzling gold scales and smashing tail. I'm the fish for you, if you are a fish who is into tails.
+
+              I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
+            </div>
+          </div>
+
+
+
+  @* <div class="row">
     <div class="col-md-4">
       <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
@@ -42,8 +76,8 @@
             I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
+      </div> *@
+      @* <div class="col-md-4">
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="~/img/clownfish.jpg" alt="clownfish image">
           <div class="card-body">
@@ -86,7 +120,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </div> *@
       </div>
     </div>
     <hr>
