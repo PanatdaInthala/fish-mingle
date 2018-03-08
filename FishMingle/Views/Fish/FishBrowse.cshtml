@@ -28,104 +28,110 @@
   <h1 id="browse">Browse</h1>
   <br>
   <br>
-  <div class="row">
-    <div class="col-md-6">
+  @* <div class="row">
+  <div class="col-md-6"> *@
 
   @foreach (var fish in @Model["fishList"])
   {
+    <div class="row">
+    <div class="col-md-6">
     <div class="card" style="width: 18rem;">
-      <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
-      <div class="card-body">
-        <h5 class="card-title"><center>@fish.GetName()</center></h5>
-        <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
-        <p>I prefer the following species:</p>
-        @foreach (var species in @fish.GetPreferredSpecies())
-        {
-          <li>@species.GetSpeciesName()</li>
-        }
-        <h6><center>Bio</center></h6>
-        <p class="card-text">@fish.GetBio()</p>
+    <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+    <div class="card-body">
+    <h5 class="card-title"><center>@fish.GetName()</center></h5>
+    <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
+    <p>I prefer the following species:</p>
+    @foreach (var species in @fish.GetPreferredSpecies())
+    {
+      <li>@species.GetSpeciesName()</li>
+    }
+    <h6><center>Bio</center></h6>
+    <p class="card-text">@fish.GetBio()</p>
 
-        </div>
-      </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <br>
   }
 
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
-          <div class="card-body">
-            <h5 class="card-title"><center>Gaston Goldfish</center></h5>
-            <h6><center>Bio</center></h6>
-            <p class="card-text">I'm a loving kind of chap, who likes nothing more than going on lazy swims among the sea grass with the right fish.
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+    <div class="card-body">
+      <h5 class="card-title"><center>Gaston Goldfish</center></h5>
+      <h6><center>Bio</center></h6>
+      <p class="card-text">I'm a loving kind of chap, who likes nothing more than going on lazy swims among the sea grass with the right fish.
 
-              The first thing fish usually notice about me is my optimistic personality, closly followed by my dazzling gold scales and smashing tail. I'm the fish for you, if you are a fish who is into tails.
+        The first thing fish usually notice about me is my optimistic personality, closly followed by my dazzling gold scales and smashing tail. I'm the fish for you, if you are a fish who is into tails.
 
-              I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
-            </div>
-          </div>
-
-
-
-  @* <div class="row">
-    <div class="col-md-4">
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
-        <div class="card-body">
-          <h5 class="card-title"><center>Gaston Goldfish</center></h5>
-          <h6><center>Bio</center></h6>
-          <p class="card-text">I'm a loving kind of chap, who likes nothing more than going on lazy swims among the sea grass with the right fish.
-
-            The first thing fish usually notice about me is my optimistic personality, closly followed by my dazzling gold scales and smashing tail. I'm the fish for you, if you are a fish who is into tails.
-
-            I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
-          </div>
-        </div>
-      </div> *@
-      @* <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="~/img/clownfish.jpg" alt="clownfish image">
-          <div class="card-body">
-            <h5 class="card-title"><center>Cory Clownfish</center></h5>
-            <h6><center>Bio</center></h6>
-            <p class="card-text">I am a recently widowed fish with a disabled son. I am a good mate and an attentive, if sometimes overprotective, father so if you have children I don't mind at all!
-
-              Something interesting about me: I have swum with sea turtles in a current all the way to the beaches of Australia that are infested with Humans from the Great Barrier Reef where I live, just me and a rather forgetful Royal Blue Tang named Dory (who found love through this very site!)
-
-              I am a homemaker and work from home so I am always available to look after my family!</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/img/pufferfish.jpg" alt="pufferfish image">
-            <div class="card-body">
-              <h5 class="card-title"><center>Duff Pufferfish</center></h5>
-              <h6><center>Bio</center></h6>
-              <p class="card-text">I am a sensitive soul. Other fish are put off by my rather puffy appearance, and admittedly, I may have pricked them from time to time when I get nervous or scared.
-
-                I am in search of someone who will accept me for me and will be understanding of my appearance.
-
-                I work as a janitor in the School Of Fish (my pricks make it easy to reach those hard to clean places.)
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4" id="pike">
-          <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/img/pike.jpg" alt="pike image">
-            <div class="card-body">
-              <h5 class="card-title"><center>Spike Pike</center></h5>
-              <h6><center>Bio</center></h6>
-              <p class="card-text">I have often been described by the ladies as a Bad Fish. Must be because of my size and awesome physique. Going to the gym is one of my life's passions and pushing my body to its limits.
-
-                I am in training to be a boxer and I work as a police officer for the Fishopolis PD.
-
-                I am looking for a gal who likes her fish bad and muscular and like going to the gym as much as I do.
-              </p>
-            </div>
-          </div>
-        </div> *@
+        I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
       </div>
     </div>
-    <hr>
-    <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
+
+
+
+
+    @* <div class="row">
+    <div class="col-md-4">
+    <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+    <div class="card-body">
+    <h5 class="card-title"><center>Gaston Goldfish</center></h5>
+    <h6><center>Bio</center></h6>
+    <p class="card-text">I'm a loving kind of chap, who likes nothing more than going on lazy swims among the sea grass with the right fish.
+
+    The first thing fish usually notice about me is my optimistic personality, closly followed by my dazzling gold scales and smashing tail. I'm the fish for you, if you are a fish who is into tails.
+
+    I work as a tour guide, showing fish from other ponds the wonders of my pond. This allows me to exercise my skills: talking and being gazed at because I'm just that hot.</p>
   </div>
+</div>
+</div> *@
+@* <div class="col-md-4">
+<div class="card" style="width: 18rem;">
+<img class="card-img-top" src="~/img/clownfish.jpg" alt="clownfish image">
+<div class="card-body">
+<h5 class="card-title"><center>Cory Clownfish</center></h5>
+<h6><center>Bio</center></h6>
+<p class="card-text">I am a recently widowed fish with a disabled son. I am a good mate and an attentive, if sometimes overprotective, father so if you have children I don't mind at all!
+
+Something interesting about me: I have swum with sea turtles in a current all the way to the beaches of Australia that are infested with Humans from the Great Barrier Reef where I live, just me and a rather forgetful Royal Blue Tang named Dory (who found love through this very site!)
+
+I am a homemaker and work from home so I am always available to look after my family!</p>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card" style="width: 18rem;">
+<img class="card-img-top" src="~/img/pufferfish.jpg" alt="pufferfish image">
+<div class="card-body">
+<h5 class="card-title"><center>Duff Pufferfish</center></h5>
+<h6><center>Bio</center></h6>
+<p class="card-text">I am a sensitive soul. Other fish are put off by my rather puffy appearance, and admittedly, I may have pricked them from time to time when I get nervous or scared.
+
+I am in search of someone who will accept me for me and will be understanding of my appearance.
+
+I work as a janitor in the School Of Fish (my pricks make it easy to reach those hard to clean places.)
+</p>
+</div>
+</div>
+</div>
+<div class="col-md-4" id="pike">
+<div class="card" style="width: 18rem;">
+<img class="card-img-top" src="~/img/pike.jpg" alt="pike image">
+<div class="card-body">
+<h5 class="card-title"><center>Spike Pike</center></h5>
+<h6><center>Bio</center></h6>
+<p class="card-text">I have often been described by the ladies as a Bad Fish. Must be because of my size and awesome physique. Going to the gym is one of my life's passions and pushing my body to its limits.
+
+I am in training to be a boxer and I work as a police officer for the Fishopolis PD.
+
+I am looking for a gal who likes her fish bad and muscular and like going to the gym as much as I do.
+</p>
+</div>
+</div>
+</div> *@
+</div>
+</div>
+<hr>
+<footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
+</div>
