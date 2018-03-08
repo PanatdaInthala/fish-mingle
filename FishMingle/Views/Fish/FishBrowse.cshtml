@@ -42,7 +42,9 @@
         }
         <h6><center>Bio</center></h6>
         <p class="card-text">@fish.GetBio()</p>
-
+        <form action="/preferuser/@Model["sessionId"]/@fish.GetId()" method="post">
+          <button class="btn btn-info" type="submit">Prefer this fish</button>
+        </form>
         </div>
       </div>
   }
