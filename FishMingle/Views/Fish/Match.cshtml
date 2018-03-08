@@ -26,13 +26,19 @@
 </nav>
 <div class="container">
 <h1>Your Matches:</h1>
+<br>
+<br>
   @if(Model!=null)
   {
     foreach (var fish in Model["yourMatches"])
     {
       <h3>Name: @fish.GetName()</h3>
+      <br>
       <h3>Species: @fish.GetFishSpecies().GetSpeciesName()</h3>
+      <br>
       <h5>Bio: @fish.GetBio()</h5>
+      <br>
+      <br>
       <h3>Preferred species:</h3>
       @foreach (var species in @fish.GetPreferredSpecies())
       {
@@ -41,6 +47,7 @@
 
     }
   }
+  <br>
 <hr>
 <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
 </div>

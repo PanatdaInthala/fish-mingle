@@ -31,7 +31,7 @@
 <h1>Update your name</h1>
 
 
-  <h1>Update: @Model["newFish"].GetFirstName()</h1>
+  <center><h1>Update: @Model["newFish"].GetFirstName()</h1>
   <h5 class="text-muted"><em>Be sure you select "update" to save your changes</em></h5>
   <hr />
   <form action="/fish/@Model["sessionId"]/update/username" method="post">
@@ -40,7 +40,7 @@
     <label for="lastName">Update Last Name:</label>
     <input type="text" name="lastName" value="@Model["newFish"].GetLastName()">
     <button type="submit" class="btn-info">Update</button>
-  </form>
+  </form></center>
 
 <hr>
 <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>

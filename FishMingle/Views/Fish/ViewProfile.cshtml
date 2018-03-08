@@ -25,6 +25,7 @@
   </div>
 </nav>
 <div class="container">
+  <br>
 @if(Model!=null)
 {
 
@@ -32,12 +33,14 @@
 <img id="profilePic" src="~/img/profilepic.png">
 <h3>Species:</h3>
   <h4>@Model["newFish"].GetFishSpecies().GetSpeciesName()</h4>
+  <br>
 <h3>Preferred species: </h3>
   @foreach (var species in Model["speciesList"])
   {
     <li>@species.GetSpeciesName()</li>
   }
   <br>
+  <hr>
 <h3>Bio:</h3>
 <h4>@Model["newFish"].GetBio()</h4>
 
@@ -46,12 +49,12 @@
 
 
 <br>
-      <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/password"
+      <center><button class="button-color" > <a href="/fish/@Model["sessionId"]/update/password"
       class="btn">update your password</a></button>
-      <button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/username"
+      <button class="button-color"> <a href="/fish/@Model["sessionId"]/update/username"
        class="btn">update your name</a></button></center>
 <br>
-<center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/confirmation/delete" id="delete">Delete My Account</a> </button></center>
+<center><button class="button-color"> <a href="/fish/@Model["sessionId"]/confirmation/delete" id="delete">Delete My Account</a> </button></center>
 <hr>
 <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
 </div>

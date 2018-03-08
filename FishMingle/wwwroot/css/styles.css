@@ -9,7 +9,7 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
-#start {
+.button-color {
   background-color: #fba1ad;
   border-color: white;
   border-width: 4px;
@@ -66,4 +66,14 @@ label {
   height: 220px;
   width: 220px;
 
+}
+
+a {
+    color: #f8f9fa;
+}
+
+h1{
+  font-family: lobster two;
+  padding-top: 10px;
+  text-align: center;
 }
