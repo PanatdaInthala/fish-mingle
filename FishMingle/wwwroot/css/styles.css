@@ -59,3 +59,11 @@ label {
 #login{
   font-family: lobster two;
 }
+
+#profilePic{
+  float: right;
+  border: 10px solid black;
+  height: 220px;
+  width: 220px;
+
+}

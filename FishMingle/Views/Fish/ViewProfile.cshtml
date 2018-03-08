@@ -27,7 +27,9 @@
 <div class="container">
 @if(Model!=null)
 {
+
 <h1 id="profile">Profile: @Model["newFish"].GetFirstName()</h1>
+<img id="profilePic" src="~/img/profilepic.png">
 <h3>Species:</h3>
   <h4>@Model["newFish"].GetFishSpecies().GetSpeciesName()</h4>
 <h3>Preferred species: </h3>
@@ -41,6 +43,7 @@
 
 
 }
+
 
 <br>
       <center><button class="btn btn-#fba1ad"> <a href="/fish/@Model["sessionId"]/update/password"
