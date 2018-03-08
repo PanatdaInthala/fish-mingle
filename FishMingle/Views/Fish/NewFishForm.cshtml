@@ -34,18 +34,31 @@
       <label for="userNameProfile">Enter your full name:</label>
       <input type="text" name="userNameProfile">
       <hr>
+      <label for="bio">Add a bio!</label><br>
+      <textarea rows="3" name="bio"></textarea>
+      <hr>
       <h4>Choose Your Species!</h4>
       <select class="speciesId" name="speciesId">
       @if(Model!=null)
         {
-          foreach(var species in Model)
+          @foreach(var species in Model)
           {
             <h5><option value="@species.GetSpeciesId()">@species.GetSpeciesName()
             </option></h5>
             <hr>
           }
+          <hr>
         }
         </select>
+        <hr>
+        <h4>Select the species you prefer:</h4>
+          @foreach (var species in Model)
+          {
+            <div class="form-check-inline">
+            <input class="form-check-input" type="checkbox" value="@species.GetSpeciesId()" name="chosenSpecies">
+            <label for="chosenSpecies">@species.GetSpeciesName()</label>
+            </div>
+          }
         <hr>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>

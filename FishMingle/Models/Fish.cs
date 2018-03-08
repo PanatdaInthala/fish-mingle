@@ -11,6 +11,7 @@ namespace FishMingle.Models
     private int _speciesId;
     private string _userName;
     private string _password;
+    private string _bio;
 
     public Fish(string name, int speciesId, string userName, string password, int id = 0)
     {
@@ -69,6 +70,16 @@ namespace FishMingle.Models
     public void SetPassword(string password)
     {
       _password = password;
+    }
+
+    public string GetFishBio()
+    {
+      return _bio;
+    }
+
+    public void SetFishBio(string bio)
+    {
+      _bio = bio;
     }
 
     public static List<Fish> GetAll()
