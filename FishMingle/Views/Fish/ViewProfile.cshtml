@@ -33,9 +33,18 @@
 <div class="container">
 @if(Model!=null)
 {
-<h1>@Model["newFish"].GetName()</h1>
+<h1>Profile: @Model["newFish"].GetName()</h1>
+  <h3>Your matches:</h3>
+  foreach (var user in Model["matchList"])
+  {
+    <h4><li>@user.GetName()</li></h4>
+  }
+
+
 }
-      <button> <a href="/fish/@Model["newFish"].GetId()/update/password"
+<h1>@Model["sessionId"]</h1>
+      <button type="submit" name="button"></button>
+      <button> <a href="/fish/@Model["sessionId"]/update/password"
       class="btn">update your password</a></button>
       <button> <a href="/fish/@Model["newFish"].GetId()/update/username"
        class="btn">update your personal information</a></button>
