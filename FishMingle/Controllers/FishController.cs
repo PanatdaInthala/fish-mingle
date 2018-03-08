@@ -117,7 +117,7 @@ namespace FishMingle.Controllers
       newFish.Logout(newId);
       return RedirectToAction("SuccessLogout", "Home");
     }
-    [HttpGet("/fish/confirmation/delete")]
+    [HttpGet("/fish/{sessionId}/confirmation/delete")]
     public ActionResult DeleteAccount(int sessionId)
     {
       Dictionary<string, object> profileData = new Dictionary<string, object>();
@@ -132,7 +132,7 @@ namespace FishMingle.Controllers
     {
       Fish newFish = Fish.Find(sessionId);
       int newId = newFish.GetId();
-      newFish.Delete(newId);
+      newFish.Delete();
       return RedirectToAction("Index", "Home");
     }
   }

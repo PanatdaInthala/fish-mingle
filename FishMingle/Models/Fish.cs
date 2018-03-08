@@ -209,7 +209,7 @@ namespace FishMingle.Models
       }
     }
 
-    public void Delete(int userId)
+    public void Delete()
     {
       MySqlConnection conn = DB.Connection();
       conn.Open();
