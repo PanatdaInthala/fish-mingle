@@ -56,8 +56,6 @@ namespace FishMingle.Controllers
       string fishBio = Request.Form["bio"];
       newFish.AddBio(fishBio);
 
-
-
       string selectedSpecies = Request.Form["chosenSpecies"];
       if (selectedSpecies != null)
       {

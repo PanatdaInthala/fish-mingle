@@ -26,17 +26,17 @@
   <h4>Add a stylist to the site!</h4>
     <form action="/fish/create" method="post">
       <label for="userName">Enter your Username:</label>
-      <input type="text" name="userName">
+      <input type="text" name="userName" pattern="[A-Za-z0-9]{3,20}">
       <hr>
       <label for="userPassword">Create Password</label>
       <input type="password" pattern="[A-Za-z0-9]{8,20}" name="userPassword">
       <p>Your password must include at least 8 characters with no symbols.</p>
       <hr>
       <label for="userNameProfile">Enter your full name:</label>
-      <input type="text" name="userNameProfile">
+      <input type="text" name="userNameProfile" pattern="[A-Za-z]{3,20}">
       <hr>
       <label for="bio">Add a bio!</label><br>
-      <textarea rows="3" name="bio"></textarea>
+      <textarea rows="3" name="bio" pattern="[A-Za-z0-9]{3,500}"></textarea>
       <hr>
       <h4>Choose Your Species!</h4>
       <select class="speciesId" name="speciesId">
