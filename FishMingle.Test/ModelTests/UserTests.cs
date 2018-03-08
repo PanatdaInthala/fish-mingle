@@ -95,23 +95,24 @@ namespace FishMingle.Tests
       //Assert
       CollectionAssert.AreEqual(expected, result);
     }
-    [TestMethod]
-    public void Logout_LogoutsFish_Void()
-    {
-      //Arrange
-      Fish firstFish = new Fish("Jim", 1, "Jim45", "Password1");
-      firstFish.Save();
-      Fish secondFish = new Fish ("James", 1, "James45", "Password2");
-      secondFish.Save();
-
-      //Act
-      Fish.Logout(firstFish.GetId());
-      List<Fish> expected = new List<Fish> {firstFish, secondFish};
-      List<Fish> result = Fish.GetAll();
-
-      //Assert
-      CollectionAssert.AreEqual(expected, result);
-    }
+    // [TestMethod]
+    // public void Logout_LogoutsFish_Void()
+    // {
+    //   //Arrange
+    //   Fish firstFish = new Fish("Jim", 1, "Jim45", "Password1");
+    //   firstFish.Save();
+    //   Fish secondFish = new Fish ("James", 1, "James45", "Password2");
+    //   secondFish.Save();
+    //   int firstFishId = firstFish.GetId();
+    //
+    //   //Act
+    //   Fish.Logout(firstFish.GetId);
+    //   List<Fish> expected = new List<Fish> {firstFish, secondFish};
+    //   List<Fish> result = Fish.GetAll();
+    //
+    //   //Assert
+    //   CollectionAssert.AreEqual(expected, result);
+    // }
     [TestMethod]
     public void UpdateFish_UpdatesFishInDatabase_String()
     {

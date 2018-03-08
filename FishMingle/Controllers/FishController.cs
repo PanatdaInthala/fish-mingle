@@ -22,6 +22,7 @@ namespace FishMingle.Controllers
       List<Fish> fishList = Fish.GetAll();
       profileData.Add("fishList", fishList);
       Fish newFish = Fish.Find(sessionId);
+      Console.WriteLine("Name: " + newFish.GetName());
       profileData.Add("newFish", newFish);
       profileData.Add("sessionId", sessionId);
 
@@ -43,10 +44,12 @@ namespace FishMingle.Controllers
       int speciesId = Int32.Parse(Request.Form["speciesId"]);
       string userNameProfile = Request.Form["userNameProfile"];
       string userPassword = Request.Form["userPassword"];
-      Fish newFish = new Fish( userNameActual, speciesId, userNameProfile, userPassword );
-      newFish.Save();
 
-      return View("UserConfirmation", newFish);
+      Fish newFish = new Fish( userNameProfile, speciesId, userNameActual, userPassword );
+      newFish.Save();
+      int newSessionId = Fish.Login(Request.Form["userName"], Request.Form["userPassword"]);
+      Console.WriteLine("Session ID at Create:" + newSessionId);
+      return RedirectToAction("ViewProfile", new { sessionId = newSessionId});
     }
 
     [HttpGet("/fish/{sessionId}/update/password")]
