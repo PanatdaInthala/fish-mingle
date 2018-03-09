@@ -263,7 +263,8 @@ namespace FishMingle.Models
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
 
       int userId = 0;
-      string name = "";
+      string firstName = "";
+      string lastName = "";
       int speciesId = 0;
       string userName = "";
       string password = "";
@@ -272,14 +273,15 @@ namespace FishMingle.Models
       while (rdr.Read())
       {
         userId = rdr.GetInt32(0);
-        name = rdr.GetString(1);
-        speciesId = rdr.GetInt32(2);
-        userName = rdr.GetString(3);
-        password = rdr.GetString(4);
-        bio = rdr.GetString(5);
+        firstName = rdr.GetString(1);
+        lastName = rdr.GetString(2);
+        speciesId = rdr.GetInt32(3);
+        userName = rdr.GetString(4);
+        password = rdr.GetString(5);
+        bio = rdr.GetString(6);
       }
 
-      Fish foundFish= new Fish(name, speciesId, userName, password, userId);
+      Fish foundFish= new Fish(firstName, lastName, speciesId, userName, password, userId);
       foundFish.SetBio(bio);
       conn.Close();
       if (conn != null)
