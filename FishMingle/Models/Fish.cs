@@ -245,6 +245,49 @@ namespace FishMingle.Models
       }
       return foundFish;
     }
+    public static Fish FindById(int newId)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"SELECT * FROM users WHERE id = @thisId;";
+      cmd.CommandText =
+      @"SELECT * FROM users WHERE users.id = @thisId;";
+
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = newId;
+      cmd.Parameters.Add(thisId);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      int userId = 0;
+      string name = "";
+      int speciesId = 0;
+      string userName = "";
+      string password = "";
+      string bio = "";
+
+      while (rdr.Read())
+      {
+        userId = rdr.GetInt32(0);
+        name = rdr.GetString(1);
+        speciesId = rdr.GetInt32(2);
+        userName = rdr.GetString(3);
+        password = rdr.GetString(4);
+        bio = rdr.GetString(5);
+      }
+
+      Fish foundFish= new Fish(name, speciesId, userName, password, userId);
+      foundFish.SetBio(bio);
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return foundFish;
+    }
 
     public static void DeleteAll()
     {

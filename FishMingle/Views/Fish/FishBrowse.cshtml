@@ -37,23 +37,22 @@
     <div class="row">
     <div class="col-md-6">
     <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
-    <div class="card-body">
-    <h5 class="card-title"><center>@fish.GetFirstName()</center></h5>
-    <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
-    <p>I prefer the following species:</p>
-    @foreach (var species in @fish.GetPreferredSpecies())
-    {
-      <li>@species.GetSpeciesName()</li>
-    }
-    <h6><center>Bio</center></h6>
-    <p class="card-text">@fish.GetBio()</p>
-
-    </div>
-    </div>
-    </div>
-    </div>
-    <br>
+      <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
+      <div class="card-body">
+        <h5 class="card-title"><center>@fish.GetFirstName()</center></h5>
+        <p>I am a @fish.GetFishSpecies().GetSpeciesName()</p>
+        <p>I prefer the following species:</p>
+        @foreach (var species in @fish.GetPreferredSpecies())
+        {
+          <li>@species.GetSpeciesName()</li>
+        }
+        <h6><center>Bio</center></h6>
+        <p class="card-text">@fish.GetBio()</p>
+        <form action="/preferuser/@Model["sessionId"]/@fish.GetId()" method="post">
+          <button class="btn btn-info" type="submit">Prefer this fish</button>
+        </form>
+        </div>
+      </div>
   }
 
   <div class="card" style="width: 18rem;">

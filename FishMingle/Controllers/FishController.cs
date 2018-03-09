@@ -43,6 +43,14 @@ namespace FishMingle.Controllers
       List<Species> speciesList = Species.GetAllSpecies();
       return View("NewFishForm", speciesList);
     }
+    [HttpPost("/preferuser/{sessionid}/{id}")]
+    public ActionResult PreferFish(int sessionId, int id)
+    {
+      Fish userFish = Fish.Find(sessionId);
+      Fish preferredFish = Fish.FindById(id);
+      userFish.AddPreference(preferredFish);
+      return RedirectToAction("FishBrowse", new { sessionId = sessionId});
+    }
 
     [HttpPost("/fish/create")]
     public ActionResult CreateFish()
