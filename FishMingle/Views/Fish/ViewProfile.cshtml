@@ -30,31 +30,35 @@
 {
 
 <h1 id="profile">Profile: @Model["newFish"].GetFirstName()</h1>
+
 <img id="profilePic" src="~/img/profilepic.png">
-<h3>Species:</h3>
-  <h4>@Model["newFish"].GetFishSpecies().GetSpeciesName()</h4>
+<span id="profile-info">
+<h3><strong>Species:</strong> @Model["newFish"].GetFishSpecies().GetSpeciesName()</h3>
   <br>
-<h3>Preferred species: </h3>
+  <h3><strong>Bio:</strong></h3>
+  <h4>@Model["newFish"].GetBio()</h4>
+<br>
+<br>
+<br>
+<br>
+
+<h3 class="preferred"><strong>Preferred species:</strong> </h3>
   @foreach (var species in Model["speciesList"])
   {
-    <li>@species.GetSpeciesName()</li>
+    <li class="preferred">@species.GetSpeciesName()</li>
   }
+  </span>
   <br>
-  <hr>
-<h3>Bio:</h3>
-<h4>@Model["newFish"].GetBio()</h4>
+
 
 
 }
 
 
 <br>
-      <center><button class="button-color" > <a href="/fish/@Model["sessionId"]/update/password"
-      class="btn">update your password</a></button>
-      <button class="button-color"> <a href="/fish/@Model["sessionId"]/update/username"
-       class="btn">update your name</a></button></center>
-<br>
-<center><button class="button-color"> <a href="/fish/@Model["sessionId"]/confirmation/delete" id="delete">Delete My Account</a> </button></center>
+      <center><button class="button-color"> <a href="/fish/@Model["sessionId"]/update/password">Update Your Password</a></button>
+      <button class="button-color"> <a href="/fish/@Model["sessionId"]/update/username">Update Your Name</a></button>
+      <button class="button-color"><a href="/fish/@Model["sessionId"]/confirmation/delete">Delete My Account</a> </button></center>
 <hr>
 <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
 </div>
