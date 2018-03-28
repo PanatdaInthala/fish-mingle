@@ -3,7 +3,7 @@
   Layout = "_Layout";
 }
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-<img class="fishlovers" src="~/img/fishlovers.png">
+  <img class="fishlovers" src="~/img/fishlovers.png">
   <a class="navbar-brand">Fish Mingle</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -26,39 +26,46 @@
 </nav>
 <div class="container">
   <br>
-@if(Model!=null)
-{
-
-<h1 id="profile">Profile: @Model["newFish"].GetFirstName()</h1>
-
-<img id="profilePic" src="~/img/profilepic.png">
-<span id="profile-info">
-<h3><strong>Species:</strong> @Model["newFish"].GetFishSpecies().GetSpeciesName()</h3>
-  <br>
-  <h3><strong>Bio:</strong></h3>
-  <h4>@Model["newFish"].GetBio()</h4>
-<br>
-<br>
-<br>
-<br>
-
-<h3 class="preferred"><strong>Preferred species:</strong> </h3>
-  @foreach (var species in Model["speciesList"])
+  @if(Model!=null)
   {
-    <li class="preferred">@species.GetSpeciesName()</li>
+
+    <h1 id="profile">Profile: @Model["newFish"].GetFirstName()</h1>
+    <br><br>
+    <img id="profilePic" src="~/img/profilepic.png">
+
+    <h3>Preferred species: </h3>
+    @foreach (var species in Model["speciesList"])
+    {
+      <li>@species.GetSpeciesName()</li>
+    }
+    <br>
+
+    <div class="card text-center">
+    <div class="card-header">
+    <h3>About Me</h3>
+    </div>
+    <div class="card-body">
+    <h5 class="card-title">@Model["newFish"].GetFishSpecies().GetSpeciesName()</h5>
+    <p class="card-text">@Model["newFish"].GetBio()</p>
+
+    </div>
+    <div class="card-footer text-muted">
+
+    </div>
+    </div>
+
+
+
   }
-  </span>
+
+
   <br>
-
-
-
-}
-
-
-<br>
-      <center><button class="button-color"> <a href="/fish/@Model["sessionId"]/update/password">Update Your Password</a></button>
-      <button class="button-color"> <a href="/fish/@Model["sessionId"]/update/username">Update Your Name</a></button>
-      <button class="button-color"><a href="/fish/@Model["sessionId"]/confirmation/delete">Delete My Account</a> </button></center>
-<hr>
-<footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
-</div>
+  <center><button class="button-color" > <a href="/fish/@Model["sessionId"]/update/password"
+  class="btn">Update Password</a></button>
+  <button class="button-color"> <a href="/fish/@Model["sessionId"]/update/username"
+  class="btn">Update Username</a></button></center>
+  <br>
+  <center><button class="button-color"> <a href="/fish/@Model["sessionId"]/confirmation/delete" class="btn">Delete Account</a> </button></center>
+  <hr>
+  <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
+  </div>
