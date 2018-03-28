@@ -22,26 +22,29 @@
   </div>
 </nav>
   <div class="container">
-  <center><h1>Create Your Very Own Fish!</h1></center>
+  <center><h1>Create Your Very Own Fish!</h1></center><br>
 
     <form action="/fish/create" method="post">
-      <label for="userName">Enter your Username:</label><br>
+
+      <label for="userName"><strong>Create Username:</strong></label>
       <input type="text" name="userName" pattern="[A-Za-z0-9]{3,20}"><br>
-      <label for="userPassword">Create Password</label><br>
+      <label for="userPassword"><strong>Create Password:</strong></label>
       <input type="password" pattern="[A-Za-z0-9]{8,20}" name="userPassword">
-      <p>Your password must include at least 8 characters with no symbols.</p>
+      <p><em>(Your password must include at least 8 characters with no symbols.)</em></p>
       <hr>
-      <label for="firstName">Enter your first name:</label>
+
+      <label for="firstName"><strong>Enter First Name:</strong></label>
       <input type="text" name="firstName" pattern="[A-Za-z]{2,20}">
       <br>
-      <label for="lastName">Enter your last Name:</label>
+      <label for="lastName"><strong>Enter Last Name:</strong></label>
       <input type="text" name="lastName" pattern="[A-Za-z]{2,20}">
       <br>
-      <label for="bio">Add a bio!</label><br>
-      <textarea rows="3" name="bio" pattern="[A-Za-z0-9]{2,500}"></textarea>
-      <br>
+
+      <label for="bio"><strong>Tell us about yourself!</strong> <em>(Below)</em></label><br>
+      <textarea rows="5" cols="50" name="bio" pattern="[A-Za-z0-9]{2,500}"></textarea>
+      <br><hr>
       <h4>Choose Your Species!</h4>
-      <select class="speciesId" name="speciesId">
+      <br><select class="speciesId" name="speciesId">
       @if(Model!=null)
         {
           @foreach(var species in Model)
@@ -52,7 +55,7 @@
           }
           <hr>
         }
-        </select>
+      </select><br>
         <hr>
         <h4>Select the species you prefer:</h4>
           @foreach (var species in Model)
@@ -62,9 +65,9 @@
             <label for="chosenSpecies">@species.GetSpeciesName()</label>
             </div>
           }
-        <hr>
-      <button type="submit" class="btn btn-success">Submit</button>
+<br><br>
+      <center><button type="submit" class="btn btn-info">Submit</button></center>
     </form>
-
+<hr>
     <footer id="footer">FishMingle.com ©2018<img id="social_media" src="~/img/social_media.png"></footer>
 </div>

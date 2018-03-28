@@ -11,10 +11,12 @@ body{
 }
 .button-color {
   background-color: #fba1ad;
-  border-color: white;
-  border-width: 4px;
+  /*border-color: white;
+  border-width: 1px;*/
   color: white;
   margin-top: 10px;
+  padding: 0px;
+  box-shadow: 0 0 2px black;
 }
 #errorText {
   color: red;
@@ -65,7 +67,7 @@ label {
   border: 10px solid black;
   height: 220px;
   width: 220px;
-
+ box-shadow: 0 0 20px black;
 }
 
 a {
@@ -76,4 +78,18 @@ h1{
   font-family: lobster two;
   padding-top: 10px;
   text-align: center;
+}
+.card-body{
+  background-color: #c2d7da;
+}
+
+.card-footer{
+  background-color: #f5e8c0;
+}
+
+.card-header{
+  background-color: #62868c;
+}
+.card{
+  box-shadow: 0 0 20px black;
 }

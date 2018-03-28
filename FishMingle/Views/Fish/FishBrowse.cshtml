@@ -28,15 +28,13 @@
   <h1 id="browse">Browse</h1>
   <br>
   <br>
-  @* <div class="row">
-  <div class="col-md-6"> *@
 
   @foreach (var fish in @Model["fishList"])
   {
 
     <div class="row">
-    <div class="col-md-6">
-    <div class="card" style="width: 18rem;">
+    <div class="col">
+    <div class="card" style="width: 18rem;" class="row">
       <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
       <div class="card-body">
         <h5 class="card-title"><center>@fish.GetFirstName()</center></h5>
@@ -53,6 +51,7 @@
         </form>
         </div>
       </div>
+      <br>
       </div>
       </div>
   }
