@@ -28,12 +28,12 @@
   <h1 id="browse">Browse</h1>
   <br>
   <br>
-
+  <div class="row">
   @foreach (var fish in @Model["fishList"])
   {
 
-    <div class="row">
     <div class="col">
+
     <div class="card" style="width: 18rem;" class="row">
       <img class="card-img-top" src="~/img/goldfish.jpg" alt="goldfish image">
       <div class="card-body">
@@ -50,11 +50,15 @@
           <button class="btn btn-info" type="submit">Prefer this fish</button>
         </form>
         </div>
-      </div>
+      </div> <!--outer card -->
+
       <br>
-      </div>
-      </div>
+
+      </div><!--outer col -->
+
+
   }
+  </div> <!--outer row -->
 </div>
 </div>
 </div>
