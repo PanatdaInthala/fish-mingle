@@ -9,6 +9,15 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+#fishbowl{
+  height: auto;
+  margin-left: -150px;
+  margin-right: -100px;
+}
+#fish-container{
+  min-width: 500px;
+
+}
 .button-color {
   background-color: #fba1ad;
   /*border-color: white;
@@ -23,13 +32,14 @@ body{
 }
 #start-row {
   padding-top: 100px;
+  font-family: lobster two;
 }
 #header {
 padding-top: 50px;
 font-family: lobster two;
 }
-#start-row{
-  font-family: lobster two;
+.preferred {
+  float: right;
 }
 #footer{
     text-align: center;
@@ -46,6 +56,10 @@ label {
 #pike{
   padding-top: 15px;
 }
+#profile-info {
+margin-left: 15px;
+
+}
 #browse
 {
   font-family: lobster two;
@@ -61,7 +75,6 @@ label {
 #login{
   font-family: lobster two;
 }
-
 #profilePic{
   float: right;
   border: 10px solid black;
